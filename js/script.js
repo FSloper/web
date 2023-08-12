@@ -1,10 +1,10 @@
-var searchvisible = 0;
+let searchvisible = 0;
 
 $("#search-menu").click(function(e){ 
     //This stops the page scrolling to the top on a # link.
     e.preventDefault();
 
-    var val = $('#search-icon');
+    const val = $('#search-icon');
     if(val.hasClass('ion-ios-search-strong')){
         val.addClass('ion-ios-close-empty');
         val.removeClass('ion-ios-search-strong');
@@ -54,9 +54,9 @@ function classReg( className ) {
 
 // classList support for class management
 // altho to be fair, the api sucks because it won't accept multiple classes at once
-var hasClass, addClass, removeClass;
+    let hasClass, addClass, removeClass;
 
-if ( 'classList' in document.documentElement ) {
+    if ( 'classList' in document.documentElement ) {
   hasClass = function( elem, c ) {
     return elem.classList.contains( c );
   };
@@ -82,22 +82,22 @@ else {
 }
 
 function toggleClass( elem, c ) {
-  var fn = hasClass( elem, c ) ? removeClass : addClass;
-  fn( elem, c );
+    const fn = hasClass(elem, c) ? removeClass : addClass;
+    fn( elem, c );
 }
 
-var classie = {
-  // full names
-  hasClass: hasClass,
-  addClass: addClass,
-  removeClass: removeClass,
-  toggleClass: toggleClass,
-  // short names
-  has: hasClass,
-  add: addClass,
-  remove: removeClass,
-  toggle: toggleClass
-};
+    const classie = {
+        // full names
+        hasClass: hasClass,
+        addClass: addClass,
+        removeClass: removeClass,
+        toggleClass: toggleClass,
+        // short names
+        has: hasClass,
+        add: addClass,
+        remove: removeClass,
+        toggle: toggleClass
+    };
 
 // transport
 if ( typeof define === 'function' && define.amd ) {
@@ -111,10 +111,10 @@ if ( typeof define === 'function' && define.amd ) {
 })( window );
 
 (function() {
-    var triggerBttn = document.getElementById( 'trigger-overlay' ),
-        overlay = document.querySelector( 'div.overlay' ),
-        closeBttn = overlay.querySelector( 'button.overlay-close' );
-        transEndEventNames = {
+    const triggerBttn = document.getElementById('trigger-overlay'),
+        overlay = document.querySelector('div.overlay'),
+        closeBttn = overlay.querySelector('button.overlay-close');
+    transEndEventNames = {
             'WebkitTransition': 'webkitTransitionEnd',
             'MozTransition': 'transitionend',
             'OTransition': 'oTransitionEnd',
@@ -128,12 +128,12 @@ if ( typeof define === 'function' && define.amd ) {
         if( classie.has( overlay, 'open' ) ) {
             classie.remove( overlay, 'open' );
             classie.add( overlay, 'close' );
-            var onEndTransitionFn = function( ev ) {
-                if( support.transitions ) {
-                    if( ev.propertyName !== 'visibility' ) return;
-                    this.removeEventListener( transEndEventName, onEndTransitionFn );
+            const onEndTransitionFn = function (ev) {
+                if (support.transitions) {
+                    if (ev.propertyName !== 'visibility') return;
+                    this.removeEventListener(transEndEventName, onEndTransitionFn);
                 }
-                classie.remove( overlay, 'close' );
+                classie.remove(overlay, 'close');
             };
             if( support.transitions ) {
                 overlay.addEventListener( transEndEventName, onEndTransitionFn );
