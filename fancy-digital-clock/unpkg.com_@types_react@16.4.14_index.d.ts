@@ -65,6 +65,7 @@ declare namespace React {
     interface Attributes {
         key?: Key;
     }
+
     interface ClassAttributes<T> extends Attributes {
         ref?: Ref<T>;
     }
@@ -80,6 +81,7 @@ declare namespace React {
     }
 
     type CElement<P, T extends Component<P, ComponentState>> = ComponentElement<P, T>;
+
     interface ComponentElement<P, T extends Component<P, ComponentState>> extends ReactElement<P> {
         type: ComponentClass<P>;
         ref?: Ref<T>;
@@ -95,7 +97,8 @@ declare namespace React {
 
     // ReactHTML for ReactHTMLElement
     // tslint:disable-next-line:no-empty-interface
-    interface ReactHTMLElement<T extends HTMLElement> extends DetailedReactHTMLElement<AllHTMLAttributes<T>, T> { }
+    interface ReactHTMLElement<T extends HTMLElement> extends DetailedReactHTMLElement<AllHTMLAttributes<T>, T> {
+    }
 
     interface DetailedReactHTMLElement<P extends HTMLAttributes<T>, T extends HTMLElement> extends DOMElement<P, T> {
         type: keyof ReactHTML;
@@ -129,7 +132,8 @@ declare namespace React {
         (props?: ClassAttributes<T> & P | null, ...children: ReactNode[]) => DOMElement<P, T>;
 
     // tslint:disable-next-line:no-empty-interface
-    interface HTMLFactory<T extends HTMLElement> extends DetailedHTMLFactory<AllHTMLAttributes<T>, T> {}
+    interface HTMLFactory<T extends HTMLElement> extends DetailedHTMLFactory<AllHTMLAttributes<T>, T> {
+    }
 
     interface DetailedHTMLFactory<P extends HTMLAttributes<T>, T extends HTMLElement> extends DOMFactory<P, T> {
         (props?: ClassAttributes<T> & P | null, ...children: ReactNode[]): DetailedReactHTMLElement<P, T>;
@@ -147,7 +151,9 @@ declare namespace React {
     type ReactText = string | number;
     type ReactChild = ReactElement<any> | ReactText;
 
-    interface ReactNodeArray extends Array<ReactNode> {}
+    interface ReactNodeArray extends Array<ReactNode> {
+    }
+
     type ReactFragment = {} | ReactNodeArray;
     type ReactNode = ReactChild | ReactFragment | ReactPortal | string | number | boolean | null | undefined;
 
@@ -257,10 +263,12 @@ declare namespace React {
 
     type Provider<T> = ComponentType<ProviderProps<T>>;
     type Consumer<T> = ComponentType<ConsumerProps<T>>;
+
     interface Context<T> {
         Provider: Provider<T>;
         Consumer: Consumer<T>;
     }
+
     function createContext<T>(
         defaultValue: T,
         calculateChangedBits?: (prev: T, next: T) => number
@@ -281,7 +289,9 @@ declare namespace React {
 
     // Base component for plain JS classes
     // tslint:disable-next-line:no-empty-interface
-    interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> { }
+    interface Component<P = {}, S = {}, SS = any> extends ComponentLifecycle<P, S, SS> {
+    }
+
     class Component<P, S> {
         constructor(props: Readonly<P>);
         /**
@@ -299,6 +309,7 @@ declare namespace React {
         ): void;
 
         forceUpdate(callBack?: () => void): void;
+
         render(): ReactNode;
 
         // React.Props<T> is now deprecated, which means that the `children`
@@ -322,11 +333,14 @@ declare namespace React {
         };
     }
 
-    class PureComponent<P = {}, S = {}, SS = any> extends Component<P, S, SS> { }
+    class PureComponent<P = {}, S = {}, SS = any> extends Component<P, S, SS> {
+    }
 
     interface ClassicComponent<P = {}, S = {}> extends Component<P, S> {
         replaceState(nextState: S, callback?: () => void): void;
+
         isMounted(): boolean;
+
         getInitialState?(): S;
     }
 
@@ -339,8 +353,10 @@ declare namespace React {
     // ----------------------------------------------------------------------
 
     type SFC<P = {}> = StatelessComponent<P>;
+
     interface StatelessComponent<P = {}> {
         (props: P & { children?: ReactNode }, context?: any): ReactElement<any> | null;
+
         propTypes?: ValidationMap<P>;
         contextTypes?: ValidationMap<any>;
         defaultProps?: Partial<P>;
@@ -349,6 +365,7 @@ declare namespace React {
 
     interface RefForwardingComponent<T, P = {}> {
         (props: P & { children?: ReactNode }, ref?: Ref<T>): ReactElement<any> | null;
+
         propTypes?: ValidationMap<P>;
         contextTypes?: ValidationMap<any>;
         defaultProps?: Partial<P>;
@@ -356,7 +373,8 @@ declare namespace React {
     }
 
     interface ComponentClass<P = {}, S = ComponentState> extends StaticLifecycle<P, S> {
-        new (props: P, context?: any): Component<P, S>;
+        new(props: P, context?: any): Component<P, S>;
+
         propTypes?: ValidationMap<P>;
         contextTypes?: ValidationMap<any>;
         childContextTypes?: ValidationMap<any>;
@@ -365,7 +383,8 @@ declare namespace React {
     }
 
     interface ClassicComponentClass<P = {}> extends ComponentClass<P> {
-        new (props: P, context?: any): ClassicComponent<P, ComponentState>;
+        new(props: P, context?: any): ClassicComponent<P, ComponentState>;
+
         getDefaultProps?(): P;
     }
 
@@ -391,6 +410,7 @@ declare namespace React {
          * Called immediately after a component is mounted. Setting state here will trigger re-rendering.
          */
         componentDidMount?(): void;
+
         /**
          * Called to determine whether the change in props and state should trigger a re-render.
          *
@@ -402,11 +422,13 @@ declare namespace React {
          * and `componentDidUpdate` will not be called.
          */
         shouldComponentUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean;
+
         /**
          * Called immediately before a component is destroyed. Perform any necessary cleanup in this method, such as
          * cancelled network requests, or cleaning up any DOM elements created in `componentDidMount`.
          */
         componentWillUnmount?(): void;
+
         /**
          * Catches exceptions generated in descendant components. Unhandled exceptions will cause
          * the entire component tree to unmount.
@@ -420,11 +442,11 @@ declare namespace React {
     }
 
     type GetDerivedStateFromProps<P, S> =
-        /**
-         * Returns an update to a component's state based on its new props and old state.
-         *
-         * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
-         */
+    /**
+     * Returns an update to a component's state based on its new props and old state.
+     *
+     * Note: its presence prevents any of the deprecated lifecycle methods from being invoked
+     */
         (nextProps: Readonly<P>, prevState: S) => Partial<S> | null;
 
     // This should be "infer SS" but can't use it yet
@@ -438,6 +460,7 @@ declare namespace React {
          * lifecycle events from running.
          */
         getSnapshotBeforeUpdate?(prevProps: Readonly<P>, prevState: Readonly<S>): SS | null;
+
         /**
          * Called immediately after updating occurs. Not called for the initial render.
          *
@@ -459,6 +482,7 @@ declare namespace React {
          * @see https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html#gradual-migration-path
          */
         componentWillMount?(): void;
+
         /**
          * Called immediately before mounting occurs, and before `Component#render`.
          * Avoid introducing any side-effects or subscriptions in this method.
@@ -473,6 +497,7 @@ declare namespace React {
          * @see https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html#gradual-migration-path
          */
         UNSAFE_componentWillMount?(): void;
+
         /**
          * Called when the component may be receiving new props.
          * React may call this even if props have not changed, so be sure to compare new and existing
@@ -488,6 +513,7 @@ declare namespace React {
          * @see https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html#gradual-migration-path
          */
         componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void;
+
         /**
          * Called when the component may be receiving new props.
          * React may call this even if props have not changed, so be sure to compare new and existing
@@ -505,6 +531,7 @@ declare namespace React {
          * @see https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html#gradual-migration-path
          */
         UNSAFE_componentWillReceiveProps?(nextProps: Readonly<P>, nextContext: any): void;
+
         /**
          * Called immediately before rendering when new props or state is received. Not called for the initial render.
          *
@@ -518,6 +545,7 @@ declare namespace React {
          * @see https://reactjs.org/blog/2018/03/27/update-on-async-rendering.html#gradual-migration-path
          */
         componentWillUpdate?(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): void;
+
         /**
          * Called immediately before rendering when new props or state is received. Not called for the initial render.
          *
@@ -547,6 +575,7 @@ declare namespace React {
         childContextTypes?: ValidationMap<any>;
 
         getDefaultProps?(): P;
+
         getInitialState?(): S;
     }
 
@@ -575,11 +604,17 @@ declare namespace React {
         eventPhase: number;
         isTrusted: boolean;
         nativeEvent: Event;
+
         preventDefault(): void;
+
         isDefaultPrevented(): boolean;
+
         stopPropagation(): void;
+
         isPropagationStopped(): boolean;
+
         persist(): void;
+
         // If you thought this should be `EventTarget & T`, see https://github.com/DefinitelyTyped/DefinitelyTyped/pull/12239
         /**
          * A reference to the element from which the event was originally dispatched.
@@ -641,10 +676,12 @@ declare namespace React {
         altKey: boolean;
         charCode: number;
         ctrlKey: boolean;
+
         /**
          * See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
          */
         getModifierState(key: string): boolean;
+
         /**
          * See the [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#named-key-attribute-values). for possible values
          */
@@ -666,10 +703,12 @@ declare namespace React {
         clientX: number;
         clientY: number;
         ctrlKey: boolean;
+
         /**
          * See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
          */
         getModifierState(key: string): boolean;
+
         metaKey: boolean;
         nativeEvent: NativeMouseEvent;
         pageX: number;
@@ -684,10 +723,12 @@ declare namespace React {
         altKey: boolean;
         changedTouches: TouchList;
         ctrlKey: boolean;
+
         /**
          * See [DOM Level 3 Events spec](https://www.w3.org/TR/uievents-key/#keys-modifier). for a list of valid (case-sensitive) arguments to this method.
          */
         getModifierState(key: string): boolean;
+
         metaKey: boolean;
         nativeEvent: NativeTouchEvent;
         shiftKey: boolean;
@@ -1348,7 +1389,8 @@ declare namespace React {
     }
 
     // tslint:disable-next-line:no-empty-interface
-    interface AudioHTMLAttributes<T> extends MediaHTMLAttributes<T> {}
+    interface AudioHTMLAttributes<T> extends MediaHTMLAttributes<T> {
+    }
 
     interface AreaHTMLAttributes<T> extends HTMLAttributes<T> {
         alt?: string;
@@ -1764,7 +1806,7 @@ declare namespace React {
         accumulate?: "none" | "sum";
         additive?: "replace" | "sum";
         alignmentBaseline?: "auto" | "baseline" | "before-edge" | "text-before-edge" | "middle" | "central" | "after-edge" |
-        "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "inherit";
+            "text-after-edge" | "ideographic" | "alphabetic" | "hanging" | "mathematical" | "inherit";
         allowReorder?: "no" | "yes";
         alphabetic?: number | string;
         amplitude?: number | string;
@@ -2202,7 +2244,8 @@ declare namespace React {
         view: SVGFactory;
     }
 
-    interface ReactDOM extends ReactHTML, ReactSVG { }
+    interface ReactDOM extends ReactHTML, ReactSVG {
+    }
 
     //
     // React.PropTypes
@@ -2239,9 +2282,13 @@ declare namespace React {
 
     interface ReactChildren {
         map<T>(children: ReactNode, fn: (child: ReactChild, index: number) => T): T[];
+
         forEach(children: ReactNode, fn: (child: ReactChild, index: number) => void): void;
+
         count(children: ReactNode): number;
+
         only(children: ReactNode): ReactElement<any>;
+
         toArray(children: ReactNode): ReactChild[];
     }
 
@@ -2268,8 +2315,11 @@ declare namespace React {
 
     interface TouchList {
         [index: number]: Touch;
+
         length: number;
+
         item(index: number): Touch;
+
         identifiedTouch(identifier: number): Touch;
     }
 
@@ -2302,12 +2352,20 @@ type Defaultize<P, D> = P extends any
 declare global {
     namespace JSX {
         // tslint:disable-next-line:no-empty-interface
-        interface Element extends React.ReactElement<any> { }
+        interface Element extends React.ReactElement<any> {
+        }
+
         interface ElementClass extends React.Component<any> {
             render(): React.ReactNode;
         }
-        interface ElementAttributesProperty { props: {}; }
-        interface ElementChildrenAttribute { children: {}; }
+
+        interface ElementAttributesProperty {
+            props: {};
+        }
+
+        interface ElementChildrenAttribute {
+            children: {};
+        }
 
         type LibraryManagedAttributes<C, P> = C extends { propTypes: infer T; defaultProps: infer D; }
             ? Defaultize<MergePropTypes<P, PropTypes.InferProps<T>>, D>
@@ -2318,9 +2376,12 @@ declare global {
                     : P;
 
         // tslint:disable-next-line:no-empty-interface
-        interface IntrinsicAttributes extends React.Attributes { }
+        interface IntrinsicAttributes extends React.Attributes {
+        }
+
         // tslint:disable-next-line:no-empty-interface
-        interface IntrinsicClassAttributes<T> extends React.ClassAttributes<T> { }
+        interface IntrinsicClassAttributes<T> extends React.ClassAttributes<T> {
+        }
 
         interface IntrinsicElements {
             // HTML
