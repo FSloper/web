@@ -27,7 +27,7 @@ function loadData() {
         })
         .then(data => {
             // 将对象转换为数组格式
-            allData = Object.entries(data).map(([period, value]) => {
+            allData = Object.entries(data).sort((a, b) => b[0].localeCompare(a[0])).map(([period, value]) => {
                 const [redBalls, blueBall] = value.split(',').slice(0, 6).join(',').split(',').slice(-1)[0];
                 return {
                     period,
@@ -54,9 +54,9 @@ function setupEventListeners() {
 
 // 更新显示
 function updateDisplay() {
-    const rowsPerPage = parseInt(rowsPerPageSelect.value) || ROWS_PER_PAGE;
-    const startIndex = (currentPage - 1) * rowsPerPage;
-    const endIndex = rowsPerPage === 'all' ? allData.length : startIndex + rowsPerPage;
+    const rowsPerPage = rowsPerPageSelect.value;
+    const startIndex = (currentPage - 1) * (rowsPerPage === 'all' ? allData.length : parseInt(rowsPerPage));
+    const endIndex = rowsPerPage === 'all' ? allData.length : startIndex + parseInt(rowsPerPage);
     const pageData = rowsPerPage === 'all' ? allData : allData.slice(startIndex, endIndex);
     
     renderTable(pageData);
@@ -99,10 +99,18 @@ function renderTable(data) {
 
 // 渲染分页控件
 function renderPagination() {
-    const rowsPerPage = parseInt(rowsPerPageSelect.value) || ROWS_PER_PAGE;
-    totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(allData.length / rowsPerPage);
+    const rowsPerPage = rowsPerPageSelect.value;
+    totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(allData.length / parseInt(rowsPerPage));
     
     pagination.innerHTML = '';
+    
+    if (rowsPerPage === 'all') {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = '1';
+        pageButton.className = 'active';
+        pagination.appendChild(pageButton);
+        return;
+    }
     
     // 上一页按钮
     const prevButton = document.createElement('button');

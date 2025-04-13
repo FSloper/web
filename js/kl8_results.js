@@ -7,7 +7,7 @@ const rowsPerPageSelect = document.getElementById('rows-per-page');
 
 // 当前页码和每页显示行数
 let currentPage = 1;
-let rowsPerPage = parseInt(rowsPerPageSelect.value);
+let rowsPerPage = rowsPerPageSelect.value === 'all' ? 'all' : parseInt(rowsPerPageSelect.value);
 
 // 从kl8_data.json获取数据
 fetch('data/kl8_data.json')
@@ -17,9 +17,12 @@ fetch('data/kl8_data.json')
         function renderTable(page) {
             resultsBody.innerHTML = '';
             
-            const start = (page - 1) * rowsPerPage;
-            const end = start + rowsPerPage;
-            const paginatedKeys = Object.keys(data).sort().reverse().slice(start, end);
+            let paginatedKeys = Object.keys(data).sort().reverse();
+            if (rowsPerPage !== 'all') {
+                const start = (page - 1) * rowsPerPage;
+                const end = start + rowsPerPage;
+                paginatedKeys = paginatedKeys.slice(start, end);
+            }
             
             paginatedKeys.forEach(issue => {
                 const row = document.createElement('tr');
@@ -47,8 +50,8 @@ fetch('data/kl8_data.json')
         
         // 渲染分页按钮
         function renderPagination() {
-    const rowsPerPage = parseInt(rowsPerPageSelect.value) || ROWS_PER_PAGE;
-    totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(Object.keys(data).length / rowsPerPage);
+    const rowsPerPage = rowsPerPageSelect.value;
+    totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(Object.keys(data).length / (rowsPerPage === 'all' ? Object.keys(data).length : parseInt(rowsPerPage)));
     
     pagination.innerHTML = '';
     
@@ -147,7 +150,7 @@ fetch('data/kl8_data.json')
         
         // 每页行数变化事件
         rowsPerPageSelect.addEventListener('change', () => {
-            rowsPerPage = parseInt(rowsPerPageSelect.value);
+            rowsPerPage = rowsPerPageSelect.value === 'all' ? 'all' : parseInt(rowsPerPageSelect.value);
             currentPage = 1;
             updateDisplay();
         });
