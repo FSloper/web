@@ -10,7 +10,7 @@ let currentPage = 1;
 let rowsPerPage = parseInt(rowsPerPageSelect.value);
 
 // 从kl8_data.json获取数据
-fetch('/data/kl8_data.json')
+fetch('data/kl8_data.json')
     .then(response => response.json())
     .then(data => {
         // 渲染表格数据
