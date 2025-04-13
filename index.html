@@ -37,6 +37,17 @@
             color: white;
         }
         
+        /* 快乐8球分组颜色 */
+        .kl8-ball.group-0 { background-color: #e74c3c; }
+        .kl8-ball.group-1 { background-color: #f39c12; }
+        .kl8-ball.group-2 { background-color: #2ecc71; }
+        .kl8-ball.group-3 { background-color: #9b59b6; }
+        .kl8-ball.group-4 { background-color: #1abc9c; }
+        .kl8-ball {
+            color: white;
+            margin-bottom: 5px;
+        }
+        
         .lottery-results {
             margin: 1rem 0;
         }
@@ -85,7 +96,8 @@
 <body>
     <nav>
         <div class="nav-links">
-            <a href="./ssq.html">双色球</a>
+            <a href="ssq.html">双色球</a>
+            <a href="kl8.html">快乐8</a>
             <a href="#dlt">大乐透</a>
             <a href="#fc3d">福彩3D</a>
             <a href="#qlc">七乐彩</a>
@@ -96,8 +108,11 @@
     <main>
         <section class="lottery-section" id="latest-results">
             <h2>最新开奖信息</h2>
-            
+            <div id="ssq-latest"></div>
+            <div id="kl8-latest"></div>
         </section>
+        
+        <script src="js/lottery_latest.js"></script>
     </main>
 
     <!-- 引入双色球开奖数据脚本 -->

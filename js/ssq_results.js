@@ -31,7 +31,6 @@ function loadData() {
                 const [redBalls, blueBall] = value.split(',').slice(0, 6).join(',').split(',').slice(-1)[0];
                 return {
                     period,
-                    date: '', // 需要补充日期数据
                     redBalls: value.split(',').slice(0, 6),
                     blueBall: value.split(',').slice(-1)[0]
                 };
@@ -75,11 +74,6 @@ function renderTable(data) {
         const periodCell = document.createElement('td');
         periodCell.textContent = item.period;
         row.appendChild(periodCell);
-        
-        // 开奖日期
-        const dateCell = document.createElement('td');
-        dateCell.textContent = item.date;
-        row.appendChild(dateCell);
         
         // 红球
         const redBallsCell = document.createElement('td');

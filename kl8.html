@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>双色球开奖结果</title>
+    <title>快乐8开奖结果</title>
     <style>
         /* 导航栏样式 */
         nav {
@@ -42,7 +42,7 @@
         }
 
         /* 球样式 */
-        .ball {
+        .kl8-ball {
             display: inline-block;
             width: 30px;
             height: 30px;
@@ -51,17 +51,15 @@
             line-height: 30px;
             margin-right: 5px;
             font-weight: bold;
+            color: white;
+            margin-bottom: 5px;
         }
         
-        .red-ball {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        .blue-ball {
-            background-color: #3498db;
-            color: white;
-        }
+        .kl8-ball.group-0 { background-color: #e74c3c; }
+        .kl8-ball.group-1 { background-color: #f39c12; }
+        .kl8-ball.group-2 { background-color: #2ecc71; }
+        .kl8-ball.group-3 { background-color: #9b59b6; }
+        .kl8-ball.group-4 { background-color: #1abc9c; }
 
         /* 表格样式 */
         table {
@@ -126,37 +124,35 @@
     </nav>
 
     <main>
-        <h1>双色球开奖结果</h1>
+        <h1>快乐8开奖结果</h1>
         
         <div class="rows-selector">
             <label for="rows-per-page">每页显示: </label>
             <select id="rows-per-page">
-                <option value="50" selected>50行</option>
-                <option value="100">100行</option>
-                <option value="200">200行</option>
-                <option value="500">500行</option>
-                <option value="all">全部</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
             </select>
         </div>
-
+        
         <table id="results-table">
             <thead>
                 <tr>
                     <th>期号</th>
-                    <th>红球</th>
-                    <th>蓝球</th>
+                    <th>开奖号码</th>
                 </tr>
             </thead>
             <tbody id="results-body">
-                <!-- 数据将通过JavaScript动态加载 -->
+                <!-- 数据将通过JavaScript动态填充 -->
             </tbody>
         </table>
-
+        
         <div class="pagination" id="pagination">
             <!-- 分页按钮将通过JavaScript动态生成 -->
         </div>
     </main>
 
-    <script src="js/ssq_results.js"></script>
+    <script src="js/kl8_results.js"></script>
 </body>
 </html>
