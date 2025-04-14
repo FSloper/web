@@ -50,6 +50,27 @@ function setupEventListeners() {
         currentPage = 1;
         updateDisplay();
     });
+    
+    document.getElementById('search-btn').addEventListener('click', () => {
+        const searchTerm = document.getElementById('period-search').value.trim();
+        if (searchTerm) {
+            const filteredData = allData.filter(item => item.period.startsWith(searchTerm));
+            rowsPerPageSelect.value = 'all';
+            renderTable(filteredData);
+            document.getElementById('pagination').style.display = 'none';
+        } else {
+            document.getElementById('pagination').style.display = 'flex';
+            updateDisplay();
+        }
+    });
+    
+    
+    document.getElementById('reset-btn').addEventListener('click', () => {
+        document.getElementById('period-search').value = '';
+        currentPage = 1;
+        document.getElementById('pagination').style.display = 'flex';
+        updateDisplay();
+    });
 }
 
 // 更新显示
@@ -66,6 +87,11 @@ function updateDisplay() {
 // 渲染表格数据
 function renderTable(data) {
     resultsBody.innerHTML = '';
+    
+    if (!Array.isArray(data)) {
+        console.error('renderTable: data参数必须是数组', data);
+        return;
+    }
     
     data.forEach(item => {
         const row = document.createElement('tr');

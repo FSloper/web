@@ -10,11 +10,14 @@ let currentPage = 1;
 let rowsPerPage = rowsPerPageSelect.value === 'all' ? 'all' : parseInt(rowsPerPageSelect.value);
 
 // 从kl8_data.json获取数据
+let allData = {};
+
 fetch('data/kl8_data.json')
     .then(response => response.json())
     .then(data => {
+        allData = data;
         // 渲染表格数据
-        function renderTable(page) {
+        function renderTable(page, data = allData) {
             resultsBody.innerHTML = '';
             
             let paginatedKeys = Object.keys(data).sort().reverse();
@@ -152,6 +155,32 @@ fetch('data/kl8_data.json')
         rowsPerPageSelect.addEventListener('change', () => {
             rowsPerPage = rowsPerPageSelect.value === 'all' ? 'all' : parseInt(rowsPerPageSelect.value);
             currentPage = 1;
+            updateDisplay();
+        });
+        
+        // 搜索按钮事件
+        document.getElementById('search-btn').addEventListener('click', () => {
+            const searchTerm = document.getElementById('period-search').value.trim();
+            if (searchTerm) {
+                const filteredData = Object.keys(allData)
+                    .filter(issue => issue.startsWith(searchTerm))
+                    .reduce((obj, key) => {
+                        obj[key] = allData[key];
+                        return obj;
+                    }, {});
+                rowsPerPage = 'all';
+                renderTable(1, filteredData);
+                document.getElementById('pagination').style.display = 'none';
+            } else {
+                document.getElementById('pagination').style.display = 'flex';
+                updateDisplay();
+            }
+        });
+        
+        // 重置按钮事件
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            document.getElementById('period-search').value = '';
+            document.getElementById('pagination').style.display = 'flex';
             updateDisplay();
         });
         
