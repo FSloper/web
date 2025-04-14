@@ -12,7 +12,7 @@ let rowsPerPage = rowsPerPageSelect.value === 'all' ? 'all' : parseInt(rowsPerPa
 // 从kl8_data.json获取数据
 let allData = {};
 
-fetch('data/kl8_data.json')
+fetch('../data/kl8_data.json')
     .then(response => response.json())
     .then(data => {
         allData = data;
