@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>双色球走势图</title>
-    <link rel="stylesheet" href="css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
 <nav>
@@ -21,13 +20,67 @@
 </nav>
 
 <main>
-    <h1>双色球走势图</h1>
-    
-    <div class="chart-container">
-        <canvas id="trendChart"></canvas>
+    <div class="prize-table">
+        <h2>双色球中奖概率与奖金</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中奖等级</th>
+                    <th>中奖概率</th>
+                    <th>奖金(元)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><span class="prob-decimal">0.00000006</span> <span class="prob-percent">(0.000006%)</span> <span class="prob-fraction">(1/16,666,667)</span></td>
+                    <td>5,000,000</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><span class="prob-decimal">0.00000085</span> <span class="prob-percent">(0.000085%)</span> <span class="prob-fraction">(1/1,176,471)</span></td>
+                    <td>200,000</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><span class="prob-decimal">0.00000914</span> <span class="prob-percent">(0.000914%)</span> <span class="prob-fraction">(1/109,409)</span></td>
+                    <td>3,000</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><span class="prob-decimal">0.00043423</span> <span class="prob-percent">(0.043423%)</span> <span class="prob-fraction">(1/2,303)</span></td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><span class="prob-decimal">0.00775771</span> <span class="prob-percent">(0.775771%)</span> <span class="prob-fraction">(1/129)</span></td>
+                    <td>10</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><span class="prob-decimal">0.05889255</span> <span class="prob-percent">(5.889255%)</span> <span class="prob-fraction">(1/17)</span></td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>总中奖</td>
+                    <td><span class="prob-decimal">0.06709453</span> <span class="prob-percent">(6.709453%)</span> <span class="prob-fraction">(1/15)</span></td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>每注期望</td>
+                    <td>-1.062250015</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>相对性价比</td>
+                    <td>-15.83214128</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </main>
 
-<script src="js/ssq_trend_chart.js"></script>
+<script src="../js/ssq_trend_chart.js"></script>
 </body>
 </html>

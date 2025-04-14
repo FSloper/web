@@ -79,6 +79,54 @@ th {
     background-color: #f2f2f2;
 }
 
+/* 中奖概率表格样式 */
+.prize-table {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 2rem;
+}
+
+.prize-table h2 {
+    color: #2c3e50;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.prize-table table {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.prize-table th {
+    background-color: #3498db;
+    color: white;
+}
+
+.prize-table tr:hover {
+    background-color: rgba(52, 152, 219, 0.1);
+}
+
+.prize-table td {
+    transition: background-color 0.3s;
+}
+
+.prob-decimal {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+.prob-percent {
+    color: #3498db;
+}
+
+.prob-fraction {
+    color: #2ecc71;
+}
+
 /* 分页控件 */
 .pagination {
     display: flex;
