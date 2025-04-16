@@ -34,6 +34,14 @@ main {
     margin-right: auto;
 }
 
+/* 标题和按钮行样式 */
+.title-btn-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
 /* 球样式 */
 .ball, .kl8-ball {
     display: inline-block;
@@ -63,6 +71,49 @@ main {
 
 .kl8-ball.consecutive {
     background-color: #e74c3c;
+}
+
+/* 快乐8球分组颜色 */
+.kl8-ball.group-0 { background-color: #e74c3c; }
+.kl8-ball.group-1 { background-color: #f39c12; }
+.kl8-ball.group-2 { background-color: #2ecc71; }
+.kl8-ball.group-3 { background-color: #9b59b6; }
+.kl8-ball.group-4 { background-color: #1abc9c; }
+
+/* 快乐8金字塔布局样式 */
+.kl8-pyramid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.kl8-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.kl8-label {
+    min-width: 50px;
+    font-weight: bold;
+}
+
+.lottery-results {
+    margin: 1rem 0;
+}
+
+.lottery-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.results-container {
+    display: grid;
+    gap: 1rem;
 }
 
 .number-spacer {
@@ -143,7 +194,7 @@ th {
     width: 200px;
 }
 
-#search-btn, #reset-btn {
+#search-btn, #reset-btn, .regenerate-btn {
     padding: 0.6rem 1.2rem;
     background: #3498db;
     color: white;
@@ -154,7 +205,7 @@ th {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-#search-btn:hover, #reset-btn:hover {
+#search-btn:hover, #reset-btn:hover, .regenerate-btn:hover {
     background: #2980b9;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);

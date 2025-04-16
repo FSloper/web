@@ -4,94 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中国彩票信息公开平台</title>
-    <style>
-        /* 导航栏样式 */
-        nav {
-            background: #2c3e50;
-            padding: 1rem;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        /* 开奖结果样式 */
-        .ball {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 30px;
-            margin-right: 5px;
-            font-weight: bold;
-        }
-        
-        .red-ball {
-            background-color: #e74c3c;
-            color: white;
-        }
-        
-        .blue-ball {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        /* 快乐8球分组颜色 */
-        .kl8-ball.group-0 { background-color: #e74c3c; }
-        .kl8-ball.group-1 { background-color: #f39c12; }
-        .kl8-ball.group-2 { background-color: #2ecc71; }
-        .kl8-ball.group-3 { background-color: #9b59b6; }
-        .kl8-ball.group-4 { background-color: #1abc9c; }
-        .kl8-ball {
-            color: white;
-            margin-bottom: 5px;
-        }
-        
-        .lottery-results {
-            margin: 1rem 0;
-        }
-
-        .nav-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-        }
-
-        .nav-links a:hover {
-            color: #3498db;
-        }
-
-        /* 主体内容 */
-        main {
-            margin-top: 80px; /* 为固定导航栏留出空间 */
-            padding: 2rem;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .lottery-section {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .results-container {
-            display: grid;
-            gap: 1rem;
-            /* 后续根据数据量调整网格布局 */
-        }
-    </style>
+    <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
 <nav>
@@ -113,8 +26,72 @@
     </section>
 
     <script src="js/lottery_latest.js"></script>
+    
+    <section class="lottery-section" id="random-numbers">
+        <h2>随机号码生成</h2>
+        
+        <div class="random-games">
+            <div class="random-game">
+                <div class="title-btn-row">
+                    <h3>双色球</h3>
+                    <button class="regenerate-btn" onclick="generateSSQNumbers()">再来一组</button>
+                </div>
+                <div id="ssq-random-result"></div>
+            </div>
+            
+            <div class="random-game">
+                <div class="title-btn-row">
+                    <h3>快乐8</h3>
+                    <button class="regenerate-btn" onclick="generateAllKL8Numbers()">再来一组</button>
+                </div>
+                <div class="kl8-pyramid">
+                    <div class="kl8-row">
+                        <span class="kl8-label">选1:</span>
+                        <div id="kl8-random-1"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选2:</span>
+                        <div id="kl8-random-2"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选3:</span>
+                        <div id="kl8-random-3"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选4:</span>
+                        <div id="kl8-random-4"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选5:</span>
+                        <div id="kl8-random-5"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选6:</span>
+                        <div id="kl8-random-6"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选7:</span>
+                        <div id="kl8-random-7"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选8:</span>
+                        <div id="kl8-random-8"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选9:</span>
+                        <div id="kl8-random-9"></div>
+                    </div>
+                    <div class="kl8-row">
+                        <span class="kl8-label">选10:</span>
+                        <div id="kl8-random-10"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
-<!-- 引入双色球开奖数据脚本 -->
+<script src="js/random_numbers.js"></script>
+
 </body>
 </html>
