@@ -30,6 +30,13 @@
             <button id="reset-btn">重置</button>
         </div>
         <button id="trend-chart-btn" onclick="window.location.href='kl8_trend_chart.html'">中奖概率展示</button>
+        <div class="form-group">
+            <label for="spacer-select">号码间隔:</label>
+            <select id="spacer-select" class="form-control">
+                <option value="5">每5个号码一组</option>
+                <option value="10">每10个号码一组</option>
+            </select>
+        </div>
         <div class="rows-selector">
             <label for="rows-per-page">每页显示: </label>
             <select id="rows-per-page">
@@ -57,6 +64,9 @@
     <div class="pagination" id="pagination">
         <!-- 分页按钮将通过JavaScript动态生成 -->
     </div>
+    
+    <button id="back-to-top" class="back-to-top">↑</button>
+
 </main>
 
 <script src="../js/kl8_results.js"></script>
