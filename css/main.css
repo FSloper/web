@@ -56,12 +56,20 @@ main {
     background-color: #3498db;
 }
 
-.kl8-ball.group-0 { background-color: #e74c3c; }
-.kl8-ball.group-1 { background-color: #f39c12; }
-.kl8-ball.group-2 { background-color: #2ecc71; }
-.kl8-ball.group-3 { background-color: #9b59b6; }
-.kl8-ball.group-4 { background-color: #1abc9c; }
+.kl8-ball {
+    background-color: #3498db;
+    /* margin-bottom: 5px; */
+}
 
+.kl8-ball.consecutive {
+    background-color: #e74c3c;
+}
+
+.number-spacer {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
 /* 表格基础样式 */
 table {
     width: 100%;

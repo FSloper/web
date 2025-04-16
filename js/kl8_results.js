@@ -70,6 +70,21 @@ function setupEventListeners() {
         document.getElementById('pagination').style.display = 'flex';
         updateDisplay();
     });
+    
+    const spacerSelect = document.getElementById('spacer-select');
+    const showConsecutive = document.getElementById('show-consecutive');
+    
+    if (spacerSelect) {
+        spacerSelect.addEventListener('change', () => {
+            updateDisplay();
+        });
+    }
+    
+    if (showConsecutive) {
+        showConsecutive.addEventListener('change', () => {
+            updateDisplay();
+        });
+    }
 }
 
 // 更新显示
@@ -92,6 +107,8 @@ function renderTable(data) {
         return;
     }
     
+    const spacerValue = parseInt(document.getElementById('spacer-select').value);
+    
     data.forEach(item => {
         const row = document.createElement('tr');
         
@@ -102,11 +119,37 @@ function renderTable(data) {
         
         // 开奖号码
         const numbersCell = document.createElement('td');
+        
+        // 检测连号
+        const consecutiveNumbers = new Set();
+        const sortedNumbers = [...item.numbers].sort((a, b) => a - b);
+        for (let i = 1; i < sortedNumbers.length; i++) {
+            if (parseInt(sortedNumbers[i]) === parseInt(sortedNumbers[i-1]) + 1) {
+                consecutiveNumbers.add(sortedNumbers[i]);
+                consecutiveNumbers.add(sortedNumbers[i-1]);
+            }
+        }
+        
         item.numbers.forEach((num, index) => {
             const ball = document.createElement('span');
-            ball.className = `kl8-ball group-${Math.floor(index / 5)}`;
+            ball.className = `kl8-ball group-${Math.floor(index / spacerValue)}`;
+            const showConsecutive = document.getElementById('show-consecutive');
+            if (showConsecutive && showConsecutive.checked && consecutiveNumbers.has(num)) {
+                ball.classList.add('consecutive');
+            }
             ball.textContent = num;
+            ball.addEventListener('click', function() {
+                this.classList.toggle('selected');
+            });
             numbersCell.appendChild(ball);
+            
+            // 添加间隔
+            if ((index + 1) % spacerValue === 0 && index !== item.numbers.length - 1) {
+                const spacer = document.createElement('span');
+                spacer.className = 'number-spacer';
+                spacer.textContent = ' ';
+                numbersCell.appendChild(spacer);
+            }
         });
         row.appendChild(numbersCell);
         

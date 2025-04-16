@@ -33,9 +33,16 @@
         <div class="form-group">
             <label for="spacer-select">号码间隔:</label>
             <select id="spacer-select" class="form-control">
+                <option value="0">不增加间隔</option>
+                <option value="2">每2个号码一组</option>
+                <option value="4" selected>每4个号码一组</option>
                 <option value="5">每5个号码一组</option>
                 <option value="10">每10个号码一组</option>
             </select>
+            <div class="form-group">
+                <label for="show-consecutive">展示连号:</label>
+                <input type="checkbox" id="show-consecutive" class="form-control">
+            </div>
         </div>
         <div class="rows-selector">
             <label for="rows-per-page">每页显示: </label>
