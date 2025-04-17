@@ -51,7 +51,7 @@ main {
 }
 
 /* 球样式 */
-.ball, .kl8-ball {
+.ball {
     display: inline-block;
     width: 30px;
     height: 30px;
@@ -69,6 +69,24 @@ main {
 }
 
 .blue-ball {
+    background-color: #3498db;
+}
+
+/* 修改ssq.html表格中的球样式 */
+#results-table .ball {
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+#results-table .red-ball {
+    background-color: #e74c3c;
+}
+
+#results-table .blue-ball {
     background-color: #3498db;
 }
 

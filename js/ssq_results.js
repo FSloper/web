@@ -27,12 +27,13 @@ function loadData() {
         })
         .then(data => {
             // 将对象转换为数组格式
-            allData = Object.entries(data).sort((a, b) => b[0].localeCompare(a[0])).map(([period, value]) => {
-                const [redBalls, blueBall] = value.split(',').slice(0, 6).join(',').split(',').slice(-1)[0];
+            allData = Object.entries(data).sort((a, b) => b[0].localeCompare(a[0])).map(([period, numbers]) => {
+                const nums = numbers.split(',');
                 return {
                     period,
-                    redBalls: value.split(',').slice(0, 6),
-                    blueBall: value.split(',').slice(-1)[0]
+                    numbers: nums,
+                    redBalls: nums.slice(0, 6),
+                    blueBall: nums[6]
                 };
             });
             console.log('数据加载成功，共加载', allData.length, '条记录');
@@ -102,22 +103,45 @@ function renderTable(data) {
         row.appendChild(periodCell);
         
         // 红球
-        const redBallsCell = document.createElement('td');
-        item.redBalls.forEach(ball => {
-            const ballSpan = document.createElement('span');
-            ballSpan.className = 'ball red-ball';
-            ballSpan.textContent = ball;
-            redBallsCell.appendChild(ballSpan);
+        const redCell = document.createElement('td');
+        item.redBalls.forEach(num => {
+            const ball = document.createElement('span');
+            ball.className = 'ball red-ball';  // 修改为与首页相同的类名
+            ball.textContent = num;
+            redCell.appendChild(ball);
         });
-        row.appendChild(redBallsCell);
+        row.appendChild(redCell);
         
         // 蓝球
-        const blueBallCell = document.createElement('td');
-        const blueBallSpan = document.createElement('span');
-        blueBallSpan.className = 'ball blue-ball';
-        blueBallSpan.textContent = item.blueBall;
-        blueBallCell.appendChild(blueBallSpan);
-        row.appendChild(blueBallCell);
+        const blueCell = document.createElement('td');
+        const blueBall = document.createElement('span');
+        blueBall.className = 'ball blue-ball';  // 修改为与首页相同的类名
+        blueBall.textContent = item.blueBall;
+        blueCell.appendChild(blueBall);
+        row.appendChild(blueCell);
+        
+        // 计算统计数据
+        const stats = calculateStats(item.redBalls, item.blueBall);  // 改为使用item.redBalls和item.blueBall
+        
+        // 和值
+        const sumCell = document.createElement('td');
+        sumCell.textContent = stats.sum;
+        row.appendChild(sumCell);
+        
+        // 跨度
+        const spanCell = document.createElement('td');
+        spanCell.textContent = stats.span;
+        row.appendChild(spanCell);
+        
+        // 区间比
+        const zoneCell = document.createElement('td');
+        zoneCell.textContent = stats.zoneRatio;
+        row.appendChild(zoneCell);
+        
+        // 奇偶比
+        const oddEvenCell = document.createElement('td');
+        oddEvenCell.textContent = stats.oddEvenRatio;
+        row.appendChild(oddEvenCell);
         
         resultsBody.appendChild(row);
     });
@@ -250,3 +274,36 @@ window.addEventListener('DOMContentLoaded', () => {
     init();
     setupBackToTopButton();
 });
+
+// 在renderTable函数中添加以下计算逻辑
+function calculateStats(redBalls, blueBall) {
+    // 计算和值（红球号码总和）
+    const sum = redBalls.reduce((total, num) => total + parseInt(num), 0);
+    
+    // 计算跨度（最大红球号 - 最小红球号）
+    const sorted = [...redBalls].sort((a, b) => a - b);
+    const span = sorted[sorted.length - 1] - sorted[0];
+    
+    // 计算区间比（1-11为一区，12-22为二区，23-33为三区）
+    let zones = [0, 0, 0];
+    redBalls.forEach(num => {
+        if(num <= 11) zones[0]++;
+        else if(num <= 22) zones[1]++;
+        else zones[2]++;
+    });
+    const zoneRatio = zones.join(':');
+    
+    // 计算奇偶比
+    let oddEven = [0, 0];
+    redBalls.forEach(num => {
+        num % 2 === 0 ? oddEven[1]++ : oddEven[0]++;
+    });
+    const oddEvenRatio = oddEven.join(':');
+    
+    return {
+        sum,
+        span,
+        zoneRatio,
+        oddEvenRatio
+    };
+}
