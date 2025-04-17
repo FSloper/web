@@ -132,11 +132,20 @@ function renderTable(data) {
         
         item.numbers.forEach((num, index) => {
             const ball = document.createElement('span');
+            // 默认应用分组样式
             ball.className = `kl8-ball group-${Math.floor(index / spacerValue)}`;
+            
             const showConsecutive = document.getElementById('show-consecutive');
-            if (showConsecutive && showConsecutive.checked && consecutiveNumbers.has(num)) {
-                ball.classList.add('consecutive');
+            // 如果勾选了"展示连号"
+            if (showConsecutive && showConsecutive.checked) {
+                // 重置为默认蓝色
+                ball.className = 'kl8-ball';
+                // 如果是连号球则添加红色样式
+                if (consecutiveNumbers.has(num)) {
+                    ball.classList.add('consecutive');
+                }
             }
+            
             ball.textContent = num;
             ball.addEventListener('click', function() {
                 this.classList.toggle('selected');

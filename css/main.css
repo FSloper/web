@@ -85,11 +85,16 @@ main {
     background-color: #3c56e7;
 }
 /* 快乐8球分组颜色 */
-.kl8-ball.group-0 { background-color: #e74c3c; }
-.kl8-ball.group-1 { background-color: #f39c12; }
-.kl8-ball.group-2 { background-color: #2ecc71; }
-.kl8-ball.group-3 { background-color: #9b59b6; }
-.kl8-ball.group-4 { background-color: #1abc9c; }
+.kl8-ball.group-0 { background-color: #FF0000; }
+.kl8-ball.group-1 { background-color: #FF7F00; }
+.kl8-ball.group-2 { background-color: #FFD700; }
+.kl8-ball.group-3 { background-color: #00FF00; }
+.kl8-ball.group-4 { background-color: #0000FF; }
+.kl8-ball.group-5 { background-color: #4B0082; }
+.kl8-ball.group-6 { background-color: #9400D3; }
+.kl8-ball.group-7 { background-color: #FF1493; }
+.kl8-ball.group-8 { background-color: #00FFFF; }
+.kl8-ball.group-9 { background-color: #FF00FF; }
 
 /* 快乐8金字塔布局样式 */
 .kl8-pyramid {

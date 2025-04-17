@@ -5,9 +5,12 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-bottom: 2rem;
-    display: inline-block;
-    max-width: none; /* 移除最大宽度限制 */
-    min-width: 100%; /* 设置最小宽度为100% */
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box; /* 包含padding在宽度内 */
+    margin-left: 0; /* 移除左边距 */
+    margin-right: 0; /* 移除右边距 */
 }
 
 .prize-table table {
@@ -15,8 +18,9 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    width: auto;
+    width: 100%;
     min-width: 0;
+    table-layout: fixed; /* 固定表格布局 */
 }
 
 .prize-table h2 {
