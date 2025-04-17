@@ -86,6 +86,7 @@ function updateDisplay() {
 }
 
 // 渲染表格数据
+// 在renderTable函数中修改
 function renderTable(data) {
     resultsBody.innerHTML = '';
     
@@ -93,8 +94,9 @@ function renderTable(data) {
         console.error('renderTable: data参数必须是数组', data);
         return;
     }
-    
-    data.forEach(item => {
+
+    // 先渲染所有数据行
+    data.forEach((item, index) => {
         const row = document.createElement('tr');
         
         // 期号
@@ -121,7 +123,7 @@ function renderTable(data) {
         row.appendChild(blueCell);
         
         // 计算统计数据
-        const stats = calculateStats(item.redBalls, item.blueBall);  // 改为使用item.redBalls和item.blueBall
+        const stats = calculateStats(item.redBalls, item.blueBall, index);  // 改为使用item.redBalls和item.blueBall
         
         // 和值
         const sumCell = document.createElement('td');
@@ -143,8 +145,71 @@ function renderTable(data) {
         oddEvenCell.textContent = stats.oddEvenRatio;
         row.appendChild(oddEvenCell);
         
+        // 质合比
+        const primeCompositeCell = document.createElement('td');
+        primeCompositeCell.textContent = stats.primeCompositeRatio;
+        row.appendChild(primeCompositeCell);
+        
+        // 蓝球跨度
+        const blueSpanCell = document.createElement('td');
+        blueSpanCell.textContent = stats.blueSpan;
+        row.appendChild(blueSpanCell);
+        
         resultsBody.appendChild(row);
     });
+
+    // 然后计算并显示平均值
+    calculateAndDisplayAverages(data);
+}
+
+// 新增计算平均值的函数
+function calculateAndDisplayAverages(data) {
+    if (data.length === 0) return;
+
+    let totalSum = 0;
+    let totalSpan = 0;
+    let totalZone1 = 0, totalZone2 = 0, totalZone3 = 0;
+    let totalOdd = 0, totalEven = 0;
+    let totalPrime = 0, totalComposite = 0;
+    let totalBlueSpan = 0;
+    let validBlueSpanCount = 0;
+
+    data.forEach(item => {
+        const stats = calculateStats(item.redBalls, item.blueBall, data.indexOf(item));
+        
+        totalSum += stats.sum;
+        totalSpan += stats.span;
+        
+        const zones = stats.zoneRatio.split(':');
+        totalZone1 += parseInt(zones[0]);
+        totalZone2 += parseInt(zones[1]);
+        totalZone3 += parseInt(zones[2]);
+        
+        const oddEven = stats.oddEvenRatio.split(':');
+        totalOdd += parseInt(oddEven[0]);
+        totalEven += parseInt(oddEven[1]);
+        
+        const primeComposite = stats.primeCompositeRatio.split(':');
+        totalPrime += parseInt(primeComposite[0]);
+        totalComposite += parseInt(primeComposite[1]);
+        
+        if (stats.blueSpan !== '-') {
+            totalBlueSpan += Math.abs(stats.blueSpan);
+            validBlueSpanCount++;
+        }
+    });
+
+    const count = data.length;
+    document.getElementById('avg-sum').textContent = Math.round(totalSum / count);
+    document.getElementById('avg-span').textContent = Math.round(totalSpan / count);
+    document.getElementById('avg-zone').textContent = 
+        `${Math.round(totalZone1/count)}:${Math.round(totalZone2/count)}:${Math.round(totalZone3/count)}`;
+    document.getElementById('avg-odd-even').textContent = 
+        `${Math.round(totalOdd/count)}:${Math.round(totalEven/count)}`;
+    document.getElementById('avg-prime').textContent = 
+        `${Math.round(totalPrime/count)}:${Math.round(totalComposite/count)}`;
+    document.getElementById('avg-blue-span').textContent = 
+        validBlueSpanCount > 0 ? Math.round(totalBlueSpan / validBlueSpanCount) : '-';
 }
 
 // 渲染分页控件
@@ -275,35 +340,58 @@ window.addEventListener('DOMContentLoaded', () => {
     setupBackToTopButton();
 });
 
-// 在renderTable函数中添加以下计算逻辑
-function calculateStats(redBalls, blueBall) {
-    // 计算和值（红球号码总和）
-    const sum = redBalls.reduce((total, num) => total + parseInt(num), 0);
+// 判断是否为质数
+function isPrime(num) {
+    if (num <= 1) return false;
+    if (num <= 3) return true;
+    if (num % 2 === 0 || num % 3 === 0) return false;
+    for (let i = 5; i * i <= num; i += 6) {
+        if (num % i === 0 || num % (i + 2) === 0) return false;
+    }
+    return true;
+}
+
+// 计算统计数据
+function calculateStats(redBalls, blueBall, index) {
+    const nums = redBalls.map(Number);
+    const sorted = [...nums].sort((a, b) => a - b);
+    const blueNum = Number(blueBall);
     
-    // 计算跨度（最大红球号 - 最小红球号）
-    const sorted = [...redBalls].sort((a, b) => a - b);
+    // 和值
+    const sum = nums.reduce((a, b) => a + b, 0) + blueNum;
+    
+    // 跨度
     const span = sorted[sorted.length - 1] - sorted[0];
     
-    // 计算区间比（1-11为一区，12-22为二区，23-33为三区）
-    let zones = [0, 0, 0];
-    redBalls.forEach(num => {
-        if(num <= 11) zones[0]++;
-        else if(num <= 22) zones[1]++;
-        else zones[2]++;
-    });
-    const zoneRatio = zones.join(':');
+    // 蓝球变化值（由于数据是倒序排列，所以比较下一期）
+    let blueSpan = '-';
+    if (index < allData.length - 1) {  // 不是最后一条记录
+        const nextBlueBall = Number(allData[index + 1].blueBall);
+        blueSpan = blueNum - nextBlueBall;  // 当前期减去下一期
+    }
     
-    // 计算奇偶比
-    let oddEven = [0, 0];
-    redBalls.forEach(num => {
-        num % 2 === 0 ? oddEven[1]++ : oddEven[0]++;
-    });
-    const oddEvenRatio = oddEven.join(':');
+    // 区间比
+    const zone1 = nums.filter(n => n <= 11).length;
+    const zone2 = nums.filter(n => n > 11 && n <= 22).length;
+    const zone3 = nums.filter(n => n > 22).length;
+    const zoneRatio = `${zone1}:${zone2}:${zone3}`;
+    
+    // 奇偶比
+    const odd = nums.filter(n => n % 2 === 1).length;
+    const even = nums.filter(n => n % 2 === 0).length;
+    const oddEvenRatio = `${odd}:${even}`;
+    
+    // 质合比
+    const prime = nums.filter(n => isPrime(n)).length;
+    const composite = nums.length - prime;
+    const primeCompositeRatio = `${prime}:${composite}`;
     
     return {
         sum,
         span,
+        blueSpan,
         zoneRatio,
-        oddEvenRatio
+        oddEvenRatio,
+        primeCompositeRatio
     };
 }
