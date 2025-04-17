@@ -1,6 +1,6 @@
 /* 导航栏样式 */
 nav {
-    background: #2c3e50;
+    background: #FF6B35;
     padding: 1rem;
     position: fixed;
     width: 100%;
@@ -16,9 +16,10 @@ nav {
 }
 
 .nav-links .logo {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     margin-right: 1rem;
+    float: left;
 }
 
 .nav-links a {
@@ -29,7 +30,7 @@ nav {
 }
 
 .nav-links a:hover {
-    color: #3498db;
+    color: #db3434;
 }
 
 /* 主体内容 */
@@ -80,6 +81,9 @@ main {
     background-color: #e74c3c;
 }
 
+.fc3d-ball {
+    background-color: #3c56e7;
+}
 /* 快乐8球分组颜色 */
 .kl8-ball.group-0 { background-color: #e74c3c; }
 .kl8-ball.group-1 { background-color: #f39c12; }

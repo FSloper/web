@@ -1,6 +1,7 @@
 // 显示最新一期彩票开奖结果
 const ssqLatestResults = document.getElementById('ssq-latest');
 const kl8LatestResults = document.getElementById('kl8-latest');
+const fc3dLatestResults = document.getElementById('fc3d-latest');
 
 // 加载最新一期数据
 function loadSSQLatestData() {
@@ -119,8 +120,65 @@ function renderKL8Results(period, balls) {
     kl8LatestResults.appendChild(container);
 }
 
+// 加载3D最新一期数据
+function loadFC3DLatestData() {
+    // 显示加载状态
+    fc3dLatestResults.innerHTML = '<div class="loading">加载中...</div>';
+    
+    fetch('data/fc3d_data.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('网络响应不正常');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // 获取最新一期数据
+            const latestPeriod = Object.keys(data).sort().pop();
+            const latestData = data[latestPeriod];
+            const balls = latestData.split(',');
+            
+            // 渲染最新一期结果
+            renderFC3DResults(latestPeriod, balls);
+        })
+        .catch(error => {
+            console.error('加载3D数据失败:', error);
+            fc3dLatestResults.innerHTML = '<div class="error">数据加载失败，请稍后重试</div>';
+        });
+}
+
+// 渲染3D最新一期结果
+function renderFC3DResults(period, balls) {
+    const container = document.createElement('div');
+    container.className = 'latest-results';
+    
+    // 期号
+    const periodElement = document.createElement('h3');
+    periodElement.textContent = `3D    第${period}期`;
+    container.appendChild(periodElement);
+    
+    // 球号
+    const ballsContainer = document.createElement('div');
+    ballsContainer.className = 'balls-container';
+    
+    // 3D号码
+    balls.forEach(ball => {
+        const ballSpan = document.createElement('span');
+        ballSpan.className = 'ball fc3d-ball';
+        ballSpan.textContent = ball;
+        ballsContainer.appendChild(ballSpan);
+    });
+    
+    container.appendChild(ballsContainer);
+    
+    // 添加到页面
+    fc3dLatestResults.innerHTML = '';
+    fc3dLatestResults.appendChild(container);
+}
+
 // 页面加载完成后执行
 window.addEventListener('DOMContentLoaded', () => {
     if (ssqLatestResults) loadSSQLatestData();
     if (kl8LatestResults) loadKL8LatestData();
+    if (fc3dLatestResults) loadFC3DLatestData();
 });

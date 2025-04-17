@@ -1,30 +1,23 @@
-function checkPrize(userRedBalls, userBlueBall, latestResult) {
-    // 处理08和8的等价性
-    const normalizedUserRedBalls = userRedBalls.map(ball => parseInt(ball).toString());
-    const normalizedLatestRedBalls = latestResult.redBalls.map(ball => parseInt(ball).toString());
+function checkPrize(userNumbers, latestResult) {
+    // 处理数字的等价性（如08和8）
+    const normalizedUserNumbers = userNumbers.map(num => parseInt(num).toString());
+    const normalizedLatestNumbers = latestResult.numbers.map(num => parseInt(num).toString());
     
-    // 计算匹配的红球数量
-    const redMatchCount = normalizedUserRedBalls.filter(ball => 
-        normalizedLatestRedBalls.includes(ball)
+    // 计算匹配的数字数量
+    const matchCount = normalizedUserNumbers.filter((num, index) => 
+        num === normalizedLatestNumbers[index]
     ).length;
     
-    // 处理蓝球等价性
-    const blueMatch = parseInt(userBlueBall) === parseInt(latestResult.blueBall);
-    
     return {
-        redMatchCount,
-        blueMatch,
-        prizeLevel: calculatePrizeLevel(redMatchCount, blueMatch)
+        matchCount,
+        prizeLevel: calculatePrizeLevel(matchCount)
     };
 }
 
-function calculatePrizeLevel(redMatchCount, blueMatch) {
-    if (redMatchCount === 6 && blueMatch) return '一等奖';
-    if (redMatchCount === 6) return '二等奖';
-    if (redMatchCount === 5 && blueMatch) return '三等奖';
-    if (redMatchCount === 5 || (redMatchCount === 4 && blueMatch)) return '四等奖';
-    if (redMatchCount === 4 || (redMatchCount === 3 && blueMatch)) return '五等奖';
-    if (blueMatch) return '六等奖';
+function calculatePrizeLevel(matchCount) {
+    if (matchCount === 3) return '一等奖';
+    if (matchCount === 2) return '二等奖';
+    if (matchCount === 1) return '三等奖';
     return '未中奖';
 }
 
@@ -33,21 +26,21 @@ function showCheckModal() {
     const modal = document.createElement('div');
     
     // 加载开奖数据
-    fetch('../data/ssq_data.json')
+    fetch('../data/fc3d_data.json')
         .then(response => response.json())
         .then(data => {
-            window.ssqData = data;
+            window.fc3dData = data;
             const latestPeriod = Object.keys(data).sort().pop();
             const latestData = data[latestPeriod];
             window.latestResult = {
-                redBalls: latestData.split(',').slice(0, 6),
-                blueBall: latestData.split(',').slice(-1)[0]
+                numbers: latestData.split(',')
             };
         })
         .catch(error => {
             console.error('加载开奖数据失败:', error);
-            window.latestResult = { redBalls: [], blueBall: '' };
+            window.latestResult = { numbers: [] };
         });
+    
     modal.style.position = 'fixed';
     modal.style.top = '0';
     modal.style.left = '0';
@@ -76,7 +69,7 @@ function showCheckModal() {
 
     // 标题
     const title = document.createElement('h2');
-    title.textContent = '验奖';
+    title.textContent = '福彩3D验奖';
     title.style.color = '#2c3e50';
     title.style.marginBottom = '1.5rem';
     title.style.fontSize = '1.5rem';
@@ -99,35 +92,50 @@ function showCheckModal() {
     periodInput.style.display = 'block';
     modalContent.appendChild(periodInput);
 
-    // 红球输入
-    const redLabel = document.createElement('label');
-    redLabel.textContent = '请输入6个红球号码(01-33)：';
-    redLabel.style.display = 'block';
-    redLabel.style.marginBottom = '0.5rem';
-    modalContent.appendChild(redLabel);
+    // 百位输入
+    const hundredLabel = document.createElement('label');
+    hundredLabel.textContent = '百位号码(0-9)：';
+    hundredLabel.style.display = 'block';
+    hundredLabel.style.marginBottom = '0.5rem';
+    modalContent.appendChild(hundredLabel);
 
-    const redInput = document.createElement('input');
-    redInput.type = 'text';
-    redInput.style.width = '80%';
-    redInput.style.padding = '0.5rem';
-    redInput.style.margin = '0 auto 1rem';
-    redInput.style.display = 'block';
-    modalContent.appendChild(redInput);
+    const hundredInput = document.createElement('input');
+    hundredInput.type = 'text';
+    hundredInput.style.width = '80%';
+    hundredInput.style.padding = '0.5rem';
+    hundredInput.style.margin = '0 auto 1rem';
+    hundredInput.style.display = 'block';
+    modalContent.appendChild(hundredInput);
 
-    // 蓝球输入
-    const blueLabel = document.createElement('label');
-    blueLabel.textContent = '请输入1个蓝球号码(01-16)：';
-    blueLabel.style.display = 'block';
-    blueLabel.style.marginBottom = '0.5rem';
-    modalContent.appendChild(blueLabel);
+    // 十位输入
+    const tenLabel = document.createElement('label');
+    tenLabel.textContent = '十位号码(0-9)：';
+    tenLabel.style.display = 'block';
+    tenLabel.style.marginBottom = '0.5rem';
+    modalContent.appendChild(tenLabel);
 
-    const blueInput = document.createElement('input');
-    blueInput.type = 'text';
-    blueInput.style.width = '80%';
-    blueInput.style.padding = '0.5rem';
-    blueInput.style.margin = '0 auto 1rem';
-    blueInput.style.display = 'block';
-    modalContent.appendChild(blueInput);
+    const tenInput = document.createElement('input');
+    tenInput.type = 'text';
+    tenInput.style.width = '80%';
+    tenInput.style.padding = '0.5rem';
+    tenInput.style.margin = '0 auto 1rem';
+    tenInput.style.display = 'block';
+    modalContent.appendChild(tenInput);
+
+    // 个位输入
+    const unitLabel = document.createElement('label');
+    unitLabel.textContent = '个位号码(0-9)：';
+    unitLabel.style.display = 'block';
+    unitLabel.style.marginBottom = '0.5rem';
+    modalContent.appendChild(unitLabel);
+
+    const unitInput = document.createElement('input');
+    unitInput.type = 'text';
+    unitInput.style.width = '80%';
+    unitInput.style.padding = '0.5rem';
+    unitInput.style.margin = '0 auto 1rem';
+    unitInput.style.display = 'block';
+    modalContent.appendChild(unitInput);
 
     // 按钮
     const buttonContainer = document.createElement('div');
@@ -177,61 +185,38 @@ function showCheckModal() {
         confirmBtn.style.boxShadow = 'none';
     });
     confirmBtn.addEventListener('click', () => {
-        // 验证输入格式
-        const inputStr = redInput.value.trim().replace(/[^0-9]/g, '');
+        // 获取用户输入
+        const hundred = hundredInput.value.trim();
+        const ten = tenInput.value.trim();
+        const unit = unitInput.value.trim();
+        const period = periodInput.value.trim();
         
-        // 支持无分隔符的12位数字输入
-        let userRedBalls = [];
-        if (inputStr.length === 12) {
-            userRedBalls = [
-                inputStr.substring(0, 2),
-                inputStr.substring(2, 4),
-                inputStr.substring(4, 6),
-                inputStr.substring(6, 8),
-                inputStr.substring(8, 10),
-                inputStr.substring(10, 12)
-            ];
-        } else {
-            userRedBalls = inputStr.match(/\d{2}/g) || [];
-        }
-        
-        // 验证红球数量
-        if (userRedBalls.length !== 6) {
-            alert('请输入6个红球号码');
+        // 验证输入
+        if (!hundred || !ten || !unit) {
+            alert('请输入完整的3位号码');
             return;
         }
         
-
-        
-        const userBlueBall = blueInput.value.trim();
-        const period = periodInput.value.trim();
+        const userNumbers = [hundred, ten, unit];
         
         let resultData;
-        if (period && window.ssqData && window.ssqData[period]) {
-            const periodData = window.ssqData[period];
+        if (period && window.fc3dData && window.fc3dData[period]) {
+            const periodData = window.fc3dData[period];
             resultData = {
-                redBalls: periodData.split(',').slice(0, 6),
-                blueBall: periodData.split(',').slice(-1)[0]
+                numbers: periodData.split(',')
             };
         } else {
-            resultData = window.latestResult || { redBalls: [], blueBall: '' };
+            resultData = window.latestResult || { numbers: [] };
         }
         
-        const { redMatchCount, blueMatch, prizeLevel } = checkPrize(userRedBalls, userBlueBall, resultData);
-                
-        // 在控制台输出调试信息
-        console.log('最新开奖数据:', latestResult);
-        console.log('用户输入红球:', userRedBalls);
-        console.log('用户输入蓝球:', userBlueBall);
-        console.log('匹配结果:', `红球${redMatchCount}个, 蓝球${blueMatch ? '匹配' : '不匹配'}`);
-
+        const { matchCount, prizeLevel } = checkPrize(userNumbers, resultData);
         
+        // 显示结果
         const resultDiv = document.createElement('div');
         resultDiv.innerHTML = `
-            <p>最新开奖数据: 红球 ${latestResult.redBalls.join(', ')} 蓝球 ${latestResult.blueBall}</p>
+            <p>最新开奖数据: 百位 ${resultData.numbers[0]} 十位 ${resultData.numbers[1]} 个位 ${resultData.numbers[2]}</p>
             <h3>验奖结果</h3>
-            <p>红球匹配数量: ${redMatchCount}</p>
-            <p>蓝球匹配: ${blueMatch ? '是' : '否'}</p>
+            <p>匹配数字数量: ${matchCount}</p>
             <p>中奖等级: ${prizeLevel}</p>
         `;
         modalContent.insertBefore(resultDiv, buttonContainer);
@@ -239,10 +224,12 @@ function showCheckModal() {
         // 隐藏输入区域
         periodLabel.style.display = 'none';
         periodInput.style.display = 'none';
-        redLabel.style.display = 'none';
-        redInput.style.display = 'none';
-        blueLabel.style.display = 'none';
-        blueInput.style.display = 'none';
+        hundredLabel.style.display = 'none';
+        hundredInput.style.display = 'none';
+        tenLabel.style.display = 'none';
+        tenInput.style.display = 'none';
+        unitLabel.style.display = 'none';
+        unitInput.style.display = 'none';
         title.textContent = '验奖结果';
         
         // 修改确认按钮为关闭按钮

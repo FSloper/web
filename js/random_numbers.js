@@ -61,8 +61,24 @@ function generateAllKL8Numbers() {
     }
 }
 
+// 生成福彩3D随机号码函数
+function generateFC3DNumbers() {
+    const resultDiv = document.getElementById('fc3d-random-result');
+    resultDiv.innerHTML = '';
+    
+    // 生成3个数字(0-9)
+    for(let i = 0; i < 3; i++) {
+        const num = Math.floor(Math.random() * 10);
+        const ball = document.createElement('span');
+        ball.className = 'ball fc3d-ball';
+        ball.textContent = num;
+        resultDiv.appendChild(ball);
+    }
+}
+
 // 页面加载时生成随机号码
 document.addEventListener('DOMContentLoaded', function() {
     generateSSQNumbers();
     generateAllKL8Numbers();
+    generateFC3DNumbers();
 });
