@@ -1,8 +1,9 @@
 // 加载福彩3D开奖数据并实现分页功能
-const ROWS_PER_PAGE = 50;
 let currentPage = 1;
 let totalPages = 1;
 let allData = [];
+const DEFAULT_ROWS_PER_PAGE = 50;
+let rowsPerPageValue = localStorage.getItem('fc3d_rows_per_page') || DEFAULT_ROWS_PER_PAGE;
 
 // 获取DOM元素
 const resultsBody = document.getElementById('results-body');
@@ -13,6 +14,11 @@ const rowsPerPageSelect = document.getElementById('rows-per-page');
 function init() {
     loadData();
     setupEventListeners();
+    
+    // 设置初始值
+    if (localStorage.getItem('fc3d_rows_per_page')) {
+        rowsPerPageSelect.value = localStorage.getItem('fc3d_rows_per_page');
+    }
 }
 
 // 加载JSON数据
@@ -49,6 +55,8 @@ function loadData() {
 function setupEventListeners() {
     rowsPerPageSelect.addEventListener('change', () => {
         currentPage = 1;
+        rowsPerPageValue = rowsPerPageSelect.value;
+        localStorage.setItem('fc3d_rows_per_page', rowsPerPageValue);
         updateDisplay();
     });
     

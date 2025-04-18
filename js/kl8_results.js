@@ -8,11 +8,16 @@ const rowsPerPageSelect = document.getElementById('rows-per-page');
 // 当前页码和每页显示行数
 let currentPage = 1;
 let totalPages = 1;
-let rowsPerPage = rowsPerPageSelect.value === 'all' ? 'all' : parseInt(rowsPerPageSelect.value);
+let rowsPerPage = localStorage.getItem('kl8_rowsPerPage') || (rowsPerPageSelect.value === 'all' ? 'all' : parseInt(rowsPerPageSelect.value));
 let allData = [];
 
 // 初始化页面
 function init() {
+    // 从localStorage读取保存的行数选择
+    const savedRows = localStorage.getItem('kl8_rowsPerPage');
+    if (savedRows) {
+        rowsPerPageSelect.value = savedRows;
+    }
     loadData();
     setupEventListeners();
 }
@@ -48,6 +53,7 @@ function loadData() {
 function setupEventListeners() {
     rowsPerPageSelect.addEventListener('change', () => {
         currentPage = 1;
+        localStorage.setItem('kl8_rowsPerPage', rowsPerPageSelect.value);
         updateDisplay();
     });
     
@@ -74,14 +80,24 @@ function setupEventListeners() {
     const spacerSelect = document.getElementById('spacer-select');
     const showConsecutive = document.getElementById('show-consecutive');
     
+    // 从localStorage加载设置
+    if (localStorage.getItem('kl8_spacerValue')) {
+        spacerSelect.value = localStorage.getItem('kl8_spacerValue');
+    }
+    if (localStorage.getItem('kl8_showConsecutive')) {
+        showConsecutive.checked = localStorage.getItem('kl8_showConsecutive') === 'true';
+    }
+    
     if (spacerSelect) {
         spacerSelect.addEventListener('change', () => {
+            localStorage.setItem('kl8_spacerValue', spacerSelect.value);
             updateDisplay();
         });
     }
     
     if (showConsecutive) {
         showConsecutive.addEventListener('change', () => {
+            localStorage.setItem('kl8_showConsecutive', showConsecutive.checked);
             updateDisplay();
         });
     }

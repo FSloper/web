@@ -11,6 +11,11 @@ const rowsPerPageSelect = document.getElementById('rows-per-page');
 
 // 初始化页面
 function init() {
+    // 从localStorage读取保存的行数选择
+    const savedRows = localStorage.getItem('ssq_rows_per_page');
+    if (savedRows) {
+        rowsPerPageSelect.value = savedRows;
+    }
     loadData();
     setupEventListeners();
 }
@@ -49,6 +54,8 @@ function loadData() {
 function setupEventListeners() {
     rowsPerPageSelect.addEventListener('change', () => {
         currentPage = 1;
+        // 保存选择的行数到localStorage
+        localStorage.setItem('ssq_rows_per_page', rowsPerPageSelect.value);
         updateDisplay();
     });
     
