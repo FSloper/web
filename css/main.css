@@ -91,8 +91,17 @@ main {
 }
 
 .kl8-ball {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    margin-right: 5px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
     background-color: #3498db;
-    /* margin-bottom: 5px; */
 }
 
 .kl8-ball.consecutive {
