@@ -26,63 +26,383 @@
         <h2>双色球中奖概率与奖金</h2>
         <table>
             <thead>
-                <tr>
-                    <th>中奖等级</th>
-                    <th>中奖概率</th>
-                    <th>奖金(元)</th>
-                </tr>
+            <tr>
+                <th>中奖等级</th>
+                <th>中奖概率</th>
+                <th>奖金(元)</th>
+            </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><span class="prob-decimal">0.00000006</span> <span class="prob-percent">(0.000006%)</span> <span class="prob-fraction">(1/16,666,667)</span></td>
-                    <td>5,000,000</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><span class="prob-decimal">0.00000085</span> <span class="prob-percent">(0.000085%)</span> <span class="prob-fraction">(1/1,176,471)</span></td>
-                    <td>200,000</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><span class="prob-decimal">0.00000914</span> <span class="prob-percent">(0.000914%)</span> <span class="prob-fraction">(1/109,409)</span></td>
-                    <td>3,000</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td><span class="prob-decimal">0.00043423</span> <span class="prob-percent">(0.043423%)</span> <span class="prob-fraction">(1/2,303)</span></td>
-                    <td>200</td>
-                </tr>
-                <tr>
-                    <td>5</td>
-                    <td><span class="prob-decimal">0.00775771</span> <span class="prob-percent">(0.775771%)</span> <span class="prob-fraction">(1/129)</span></td>
-                    <td>10</td>
-                </tr>
-                <tr>
-                    <td>6</td>
-                    <td><span class="prob-decimal">0.05889255</span> <span class="prob-percent">(5.889255%)</span> <span class="prob-fraction">(1/17)</span></td>
-                    <td>5</td>
-                </tr>
-                <tr>
-                    <td>总中奖</td>
-                    <td><span class="prob-decimal">0.06709453</span> <span class="prob-percent">(6.709453%)</span> <span class="prob-fraction">(1/15)</span></td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>每注期望</td>
-                    <td>-1.062250015</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>相对性价比</td>
-                    <td>-15.83214128</td>
-                    <td>-</td>
-                </tr>
+            <tr>
+                <td>1</td>
+                <td><span class="prob-decimal">0.00000006</span> <span class="prob-percent">(0.000006%)</span> <span
+                        class="prob-fraction">(1/16,666,667)</span></td>
+                <td>5,000,000</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td><span class="prob-decimal">0.00000085</span> <span class="prob-percent">(0.000085%)</span> <span
+                        class="prob-fraction">(1/1,176,471)</span></td>
+                <td>200,000</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td><span class="prob-decimal">0.00000914</span> <span class="prob-percent">(0.000914%)</span> <span
+                        class="prob-fraction">(1/109,409)</span></td>
+                <td>3,000</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td><span class="prob-decimal">0.00043423</span> <span class="prob-percent">(0.043423%)</span> <span
+                        class="prob-fraction">(1/2,303)</span></td>
+                <td>200</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td><span class="prob-decimal">0.00775771</span> <span class="prob-percent">(0.775771%)</span> <span
+                        class="prob-fraction">(1/129)</span></td>
+                <td>10</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td><span class="prob-decimal">0.05889255</span> <span class="prob-percent">(5.889255%)</span> <span
+                        class="prob-fraction">(1/17)</span></td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>总中奖</td>
+                <td><span class="prob-decimal">0.06709453</span> <span class="prob-percent">(6.709453%)</span> <span
+                        class="prob-fraction">(1/15)</span></td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>每注期望</td>
+                <td>-1.062250015</td>
+                <td>-</td>
+            </tr>
+            <tr>
+                <td>相对性价比</td>
+                <td>-15.83214128</td>
+                <td>-</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="prize-table">
+        <h2>双色球复式价格表</h2>
+        <table>
+            <thead>
+            <tr>
+                <th>单位(元)</th>
+                <th>蓝单1</th>
+                <th>复2</th>
+                <th>复3</th>
+                <th>复4</th>
+                <th>复5</th>
+                <th>复6</th>
+                <th>复7</th>
+                <th>复8</th>
+                <th>复9</th>
+                <th>复10</th>
+                <th>复11</th>
+                <th>复12</th>
+                <th>复13</th>
+                <th>复14</th>
+                <th>复15</th>
+                <th>复16</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="red-first-column">红单6</td>
+                <td>2</td>
+                <td>4</td>
+                <td>6</td>
+                <td>8</td>
+                <td>10</td>
+                <td>12</td>
+                <td>14</td>
+                <td>16</td>
+                <td>18</td>
+                <td>20</td>
+                <td>22</td>
+                <td>24</td>
+                <td>26</td>
+                <td>28</td>
+                <td>30</td>
+                <td>32</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复7</td>
+                <td>14</td>
+                <td>28</td>
+                <td>42</td>
+                <td>56</td>
+                <td>70</td>
+                <td>84</td>
+                <td>98</td>
+                <td>112</td>
+                <td>126</td>
+                <td>140</td>
+                <td>154</td>
+                <td>168</td>
+                <td>182</td>
+                <td>196</td>
+                <td>210</td>
+                <td>224</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复8</td>
+                <td>56</td>
+                <td>112</td>
+                <td>168</td>
+                <td>224</td>
+                <td>280</td>
+                <td>336</td>
+                <td>392</td>
+                <td>448</td>
+                <td>504</td>
+                <td>560</td>
+                <td>616</td>
+                <td>672</td>
+                <td>728</td>
+                <td>784</td>
+                <td>840</td>
+                <td>896</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复9</td>
+                <td>168</td>
+                <td>336</td>
+                <td>504</td>
+                <td>672</td>
+                <td>840</td>
+                <td>1008</td>
+                <td>1176</td>
+                <td>1344</td>
+                <td>1512</td>
+                <td>1680</td>
+                <td>1848</td>
+                <td>2016</td>
+                <td>2184</td>
+                <td>2352</td>
+                <td>2520</td>
+                <td>2688</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复10</td>
+                <td>420</td>
+                <td>840</td>
+                <td>1260</td>
+                <td>1680</td>
+                <td>2100</td>
+                <td>2520</td>
+                <td>2940</td>
+                <td>3360</td>
+                <td>3780</td>
+                <td>4200</td>
+                <td>4620</td>
+                <td>5040</td>
+                <td>5460</td>
+                <td>5880</td>
+                <td>6300</td>
+                <td>6720</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复11</td>
+                <td>924</td>
+                <td>1848</td>
+                <td>2772</td>
+                <td>3696</td>
+                <td>4620</td>
+                <td>5544</td>
+                <td>6468</td>
+                <td>7392</td>
+                <td>8316</td>
+                <td>9240</td>
+                <td>10164</td>
+                <td>11088</td>
+                <td>12012</td>
+                <td>12936</td>
+                <td>13860</td>
+                <td>14784</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复12</td>
+                <td>1848</td>
+                <td>3696</td>
+                <td>5544</td>
+                <td>7392</td>
+                <td>9240</td>
+                <td>11088</td>
+                <td>12936</td>
+                <td>14784</td>
+                <td>16632</td>
+                <td>18480</td>
+                <td>20328</td>
+                <td>22176</td>
+                <td>24024</td>
+                <td>25872</td>
+                <td>27720</td>
+                <td>29568</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复13</td>
+                <td>3432</td>
+                <td>6864</td>
+                <td>10296</td>
+                <td>13728</td>
+                <td>17160</td>
+                <td>20592</td>
+                <td>24024</td>
+                <td>27456</td>
+                <td>30888</td>
+                <td>34320</td>
+                <td>37752</td>
+                <td>41184</td>
+                <td>44616</td>
+                <td>48048</td>
+                <td>51480</td>
+                <td>54912</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复14</td>
+                <td>6006</td>
+                <td>12012</td>
+                <td>18018</td>
+                <td>24024</td>
+                <td>30030</td>
+                <td>36036</td>
+                <td>42042</td>
+                <td>48048</td>
+                <td>54054</td>
+                <td>60060</td>
+                <td>66066</td>
+                <td>72072</td>
+                <td>78078</td>
+                <td>84084</td>
+                <td>90090</td>
+                <td>96096</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复15</td>
+                <td>10010</td>
+                <td>20020</td>
+                <td>30030</td>
+                <td>40040</td>
+                <td>50050</td>
+                <td>60060</td>
+                <td>70070</td>
+                <td>80080</td>
+                <td>90090</td>
+                <td>100100</td>
+                <td>110110</td>
+                <td>120120</td>
+                <td>130130</td>
+                <td>140140</td>
+                <td>150150</td>
+                <td>160160</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复16</td>
+                <td>16016</td>
+                <td>32032</td>
+                <td>48048</td>
+                <td>64064</td>
+                <td>80080</td>
+                <td>96096</td>
+                <td>112112</td>
+                <td>128128</td>
+                <td>144144</td>
+                <td>160160</td>
+                <td>176176</td>
+                <td>192192</td>
+                <td>208208</td>
+                <td>224224</td>
+                <td>240240</td>
+                <td>256256</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复17</td>
+                <td>24752</td>
+                <td>49504</td>
+                <td>74256</td>
+                <td>99008</td>
+                <td>123760</td>
+                <td>148512</td>
+                <td>173264</td>
+                <td>198016</td>
+                <td>222768</td>
+                <td>247520</td>
+                <td>272272</td>
+                <td>297024</td>
+                <td>321776</td>
+                <td>346528</td>
+                <td>371280</td>
+                <td>396032</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复18</td>
+                <td>37128</td>
+                <td>74256</td>
+                <td>111384</td>
+                <td>148512</td>
+                <td>185640</td>
+                <td>222768</td>
+                <td>259896</td>
+                <td>297024</td>
+                <td>334152</td>
+                <td>371280</td>
+                <td>408408</td>
+                <td>445536</td>
+                <td>482664</td>
+                <td>519792</td>
+                <td>556920</td>
+                <td>594048</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复19</td>
+                <td>54264</td>
+                <td>108528</td>
+                <td>162792</td>
+                <td>217056</td>
+                <td>271320</td>
+                <td>325584</td>
+                <td>379848</td>
+                <td>434112</td>
+                <td>488376</td>
+                <td>542640</td>
+                <td>596904</td>
+                <td>651168</td>
+                <td>705432</td>
+                <td>759696</td>
+                <td>813960</td>
+                <td>868224</td>
+            </tr>
+            <tr>
+                <td class="red-first-column">复20</td>
+                <td>77520</td>
+                <td>155040</td>
+                <td>232560</td>
+                <td>310080</td>
+                <td>387600</td>
+                <td>465120</td>
+                <td>542640</td>
+                <td>620160</td>
+                <td>697680</td>
+                <td>775200</td>
+                <td>852720</td>
+                <td>930240</td>
+                <td>1007760</td>
+                <td>1085280</td>
+                <td>1162800</td>
+                <td>1240320</td>
+            </tr>
             </tbody>
         </table>
     </div>
 </main>
 
-<script src="../js/ssq_trend_chart.js"></script>
 </body>
 </html>

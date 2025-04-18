@@ -3,13 +3,13 @@
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+    padding: 10px;
     margin-bottom: 2rem;
     display: block;
-    width: 100%;
-    max-width: 100%;
+    width: 110%;
+    max-width: 110%;
     box-sizing: border-box; /* 包含padding在宽度内 */
-    margin-left: 0; /* 移除左边距 */
+    margin-left: -5%; /* 向左移动10% */
     margin-right: 0; /* 移除右边距 */
 }
 
@@ -65,7 +65,17 @@
 /* 表格首列样式 */
 .first-column {
     font-weight: bold;
-    background-color: #f8f9fa;
+    background-color: #faf8f8;
+}
+
+.red-first-column {
+    font-weight: bold;
+    background-color: #e74c3c;
+}
+
+.blue-first-column {
+    font-weight: bold;
+    background-color: #3498db;
 }
 
 /* 表头行样式 */
