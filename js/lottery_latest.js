@@ -9,7 +9,7 @@ function loadSSQLatestData() {
     // 显示加载状态
     ssqLatestResults.innerHTML = '<div class="loading">加载中...</div>';
     
-    fetch('data/ssq_data.json')
+    fetch('data/ssq_data_first3.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('网络响应不正常');
@@ -36,7 +36,7 @@ function loadKL8LatestData() {
     // 显示加载状态
     kl8LatestResults.innerHTML = '<div class="loading">加载中...</div>';
     
-    fetch('data/kl8_data.json')
+    fetch('data/kl8_data_first3.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('网络响应不正常');
@@ -129,7 +129,7 @@ function loadFC3DLatestData() {
     // 显示加载状态
     fc3dLatestResults.innerHTML = '<div class="loading">加载中...</div>';
     
-    fetch('data/fc3d_data.json')
+    fetch('data/fc3d_data_first3.json')
         .then(response => {
             if (!response.ok) {
                 throw new Error('网络响应不正常');
