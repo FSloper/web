@@ -2,6 +2,7 @@
 const ssqLatestResults = document.getElementById('ssq-latest');
 const kl8LatestResults = document.getElementById('kl8-latest');
 const fc3dLatestResults = document.getElementById('fc3d-latest');
+const updateTimeElement = document.getElementById('update-time');
 
 // 加载最新一期数据
 function loadSSQLatestData() {
@@ -40,6 +41,9 @@ function loadKL8LatestData() {
             if (!response.ok) {
                 throw new Error('网络响应不正常');
             }
+            // 获取最后修改时间
+            const lastModified = new Date(response.headers.get('last-modified'));
+            updateTimeElement.innerHTML = `数据更新时间: ${lastModified.toLocaleString()}`;
             return response.json();
         })
         .then(data => {
@@ -146,7 +150,17 @@ function loadFC3DLatestData() {
             fc3dLatestResults.innerHTML = '<div class="error">数据加载失败，请稍后重试</div>';
         });
 }
-
+function getFileLastModified(filePath) {
+    return fetch(filePath, { method: 'HEAD' })
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.headers.get('Last-Modified');
+      })
+      .then(lastModified => {
+        if (!lastModified) throw new Error('Last-Modified header not found');
+        return new Date(lastModified);
+      });
+}
 // 渲染3D最新一期结果
 function renderFC3DResults(period, balls) {
     const container = document.createElement('div');
@@ -174,6 +188,23 @@ function renderFC3DResults(period, balls) {
     // 添加到页面
     fc3dLatestResults.innerHTML = '';
     fc3dLatestResults.appendChild(container);
+}
+
+// 更新最后修改时间
+function updateLastModifiedTime() {
+    const files = ['data/ssq_data.json', 'data/kl8_data.json', 'data/fc3d_data.json'];
+    
+    Promise.all(files.map(file => getFileLastModified(file)))
+        .then(dates => {
+            const latestDate = new Date(Math.max(...dates.map(d => d.getTime())));
+            const timeElement = document.createElement('div');
+            timeElement.className = 'last-updated';
+            timeElement.textContent = `数据最后更新时间: ${latestDate.toLocaleString()}`;
+            document.body.appendChild(timeElement);
+        })
+        .catch(error => {
+            console.error('获取文件最后修改时间失败:', error);
+        });
 }
 
 // 页面加载完成后执行
