@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>快乐8开奖结果</title>
+    <title>七星彩开奖结果</title>
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
     <div id="nav-container"></div>
 
 <main>
-    <h1>快乐8开奖结果
+    <h1>七星彩开奖结果
         <button id="check-prize-btn" class="prize-btn">查奖</button>
     </h1>
 
@@ -20,22 +20,7 @@
             <button id="search-btn">搜索</button>
             <button id="reset-btn">重置</button>
         </div>
-        <button id="trend-chart-btn" onclick="window.location.href='kl8_trend_chart.html'">中奖概率</button>
-        <button id="trend-chart-btn" onclick="window.location.href='kl8_rule.html'">规律</button>
-        <div class="form-group">
-            <label for="spacer-select">号码间隔:</label>
-            <select id="spacer-select" class="form-control">
-                <option value="0">不增加间隔</option>
-                <option value="2">每2个号码一组</option>
-                <option value="4" selected>每4个号码一组</option>
-                <option value="5">每5个号码一组</option>
-                <option value="10">每10个号码一组</option>
-            </select>
-            <div class="form-group">
-                <label for="show-consecutive">展示连号:</label>
-                <input type="checkbox" id="show-consecutive" class="form-control">
-            </div>
-        </div>
+        <button id="trend-chart-btn">中奖概率展示</button>
         <div class="rows-selector">
             <label for="rows-per-page">每页显示: </label>
             <select id="rows-per-page">
@@ -53,10 +38,23 @@
         <tr>
             <th>期号</th>
             <th>开奖号码</th>
+            <th>和值</th>
+            <th>跨度</th>
+            <th>奇偶比</th>
+            <th>大小比</th>
+            <th>质合比</th>
+        </tr>
+        <tr>
+            <th colspan="2">平均值</th>
+            <th id="avg-sum">-</th>
+            <th id="avg-span">-</th>
+            <th id="avg-odd-even">-</th>
+            <th id="avg-size">-</th>
+            <th id="avg-prime">-</th>
         </tr>
         </thead>
         <tbody id="results-body">
-        <!-- 数据将通过JavaScript动态填充 -->
+        <!-- 数据将通过JavaScript动态加载 -->
         </tbody>
     </table>
 
@@ -65,10 +63,9 @@
     </div>
 
     <button id="back-to-top" class="back-to-top">↑</button>
-
 </main>
+
+<script src="../js/tc7xc_results.js"></script>
 <script src="../js/navigation.js"></script>
-<script src="../js/kl8_results.js"></script>
-<script src="../js/kl8_check_prize.js"></script>
 </body>
 </html>
