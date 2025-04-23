@@ -159,7 +159,7 @@ function loadFC3DLatestData() {
 function loadDLTLatestData() {
     dltLatestResults.innerHTML = '<div class="loading">加载中...</div>';
     
-    fetch('../data/dlt_data_first3.json')
+    fetch('data/dlt_data_first3.json')
         .then(response => {
             if (!response.ok) throw new Error('网络响应不正常');
             return response.json();
@@ -182,7 +182,7 @@ function loadDLTLatestData() {
 function loadPLLatestData() {
     plLatestResults.innerHTML = '<div class="loading">加载中...</div>';
     
-    fetch('../data/pl_data_first3.json')
+    fetch('data/pl_data_first3.json')
         .then(response => {
             if (!response.ok) throw new Error('网络响应不正常');
             return response.json();
