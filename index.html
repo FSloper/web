@@ -10,14 +10,15 @@
 <body>
 <nav>
     <div class="nav-links">
-        <a href="index.html"><img src="img/favicon.ico" class="logo"></a>
-        <a href="index.html">首页</a>
+        <a href="/"><img src="img/favicon.ico" class="logo"></a>
+        <a href="/">首页</a>
         <a href="html/ssq.html">双色球</a>
         <a href="html/kl8.html">快乐8</a>
         <a href="html/fc3d.html">福彩3D</a>
         <a href="html/dlt.html">大乐透</a>
-        <a href="html/tc7xc.html">七乐彩</a>
+        <a href="html/tc7xc.html">七星彩</a>
         <a href="html/pl.html">排列</a>
+        <a href="html/qlc.html">七乐彩</a>
     </div>
 </nav>
 
@@ -28,6 +29,10 @@
         <div id="ssq-latest"></div>
         <div id="kl8-latest"></div>
         <div id="fc3d-latest"></div>
+        <div id="dlt-latest"></div>
+        <div id="tc7xc-latest"></div>
+        <div id="pl-latest"></div>
+        <div id="qlc-latest"></div>
     </section>
 
     <script src="js/lottery_latest.js"></script>
@@ -99,6 +104,38 @@
                     <button class="regenerate-btn" onclick="generateFC3DNumbers()">再来一组</button>
                 </div>
                 <div id="fc3d-random-result"></div>
+            </div>
+            
+            <div class="random-game">
+                <div class="title-btn-row">
+                    <h3>大乐透</h3>
+                    <button class="regenerate-btn" onclick="generateDLTNumbers()">再来一组</button>
+                </div>
+                <div id="dlt-random-result"></div>
+            </div>
+            
+            <div class="random-game">
+                <div class="title-btn-row">
+                    <h3>七星彩</h3>
+                    <button class="regenerate-btn" onclick="generateTC7XCNumbers()">再来一组</button>
+                </div>
+                <div id="tc7xc-random-result"></div>
+            </div>
+            
+            <div class="random-game">
+                <div class="title-btn-row">
+                    <h3>排列</h3>
+                    <button class="regenerate-btn" onclick="generatePLNumbers()">再来一组</button>
+                </div>
+                <div id="pl-random-result"></div>
+            </div>
+            
+            <div class="random-game">
+                <div class="title-btn-row">
+                    <h3>七乐彩</h3>
+                    <button class="regenerate-btn" onclick="generateQLCNumbers()">再来一组</button>
+                </div>
+                <div id="qlc-random-result"></div>
             </div>
         </div>
     </section>

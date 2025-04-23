@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>七星彩开奖结果</title>
+    <title>七乐彩开奖结果</title>
     <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
     <div id="nav-container"></div>
 
 <main>
-    <h1>七星彩开奖结果
-        <button class="download-btn" id="tc7xc-download-data">下载原始数据</button>
+    <h1>七乐彩开奖结果
+        <button class="download-btn" id="qlc-download-data">下载原始数据</button>
     </h1>
 
     <div class="search-and-rows">
@@ -20,7 +20,7 @@
             <button id="search-btn">搜索</button>
             <button id="reset-btn">重置</button>
         </div>
-        <button id="trend-chart-btn">中奖概率展示</button>
+        <button id="trend-chart-btn">走势图</button>
         <div class="rows-selector">
             <label for="rows-per-page">每页显示: </label>
             <select id="rows-per-page">
@@ -38,19 +38,11 @@
         <tr>
             <th>期号</th>
             <th>开奖号码</th>
+            <th>特别号</th>
             <th>和值</th>
             <th>跨度</th>
             <th>奇偶比</th>
-            <th>大小比</th>
-            <th>质合比</th>
-        </tr>
-        <tr>
-            <th colspan="2">平均值</th>
-            <th id="avg-sum">-</th>
-            <th id="avg-span">-</th>
-            <th id="avg-odd-even">-</th>
-            <th id="avg-size">-</th>
-            <th id="avg-prime">-</th>
+            <th>区间比</th>
         </tr>
         </thead>
         <tbody id="results-body">
@@ -63,9 +55,9 @@
     </div>
 
     <button id="back-to-top" class="back-to-top">↑</button>
-</main>
 
-<script src="../js/tc7xc_results.js"></script>
+</main>
+<script src="../js/qlc_results.js"></script>
 <script src="../js/navigation.js"></script>
 </body>
 </html>

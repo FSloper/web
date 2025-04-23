@@ -76,9 +76,112 @@ function generateFC3DNumbers() {
     }
 }
 
-// 页面加载时生成随机号码
+// 生成大乐透随机号码函数
+function generateDLTNumbers() {
+    const resultDiv = document.getElementById('dlt-random-result');
+    resultDiv.innerHTML = '';
+    
+    const frontBalls = [];
+    const backBalls = [];
+    
+    // 生成5个前区球(1-35)
+    while(frontBalls.length < 5) {
+        const num = Math.floor(Math.random() * 35) + 1;
+        if(!frontBalls.includes(num)) {
+            frontBalls.push(num);
+        }
+    }
+    
+    // 生成2个后区球(1-12)
+    while(backBalls.length < 2) {
+        const num = Math.floor(Math.random() * 12) + 1;
+        if(!backBalls.includes(num)) {
+            backBalls.push(num);
+        }
+    }
+    
+    // 排序
+    frontBalls.sort((a, b) => a - b);
+    backBalls.sort((a, b) => a - b);
+    
+    frontBalls.forEach(num => {
+        const ball = document.createElement('span');
+        ball.className = 'ball red-ball';
+        ball.textContent = num;
+        resultDiv.appendChild(ball);
+    });
+    
+    backBalls.forEach(num => {
+        const ball = document.createElement('span');
+        ball.className = 'ball blue-ball';
+        ball.textContent = num;
+        resultDiv.appendChild(ball);
+    });
+}
+
+// 生成七星彩随机号码函数
+function generateTC7XCNumbers() {
+    const resultDiv = document.getElementById('tc7xc-random-result');
+    resultDiv.innerHTML = '';
+    
+    // 生成7个数字(0-9)
+    for(let i = 0; i < 7; i++) {
+        const num = Math.floor(Math.random() * 10);
+        const ball = document.createElement('span');
+        ball.className = 'ball fc3d-ball';
+        ball.textContent = num;
+        resultDiv.appendChild(ball);
+    }
+}
+
+// 生成排列随机号码函数
+function generatePLNumbers() {
+    const resultDiv = document.getElementById('pl-random-result');
+    resultDiv.innerHTML = '';
+    
+    // 生成5个数字(0-9)
+    for(let i = 0; i < 5; i++) {
+        const num = Math.floor(Math.random() * 10);
+        const ball = document.createElement('span');
+        ball.className = 'ball pl-ball';
+        ball.textContent = num;
+        resultDiv.appendChild(ball);
+    }
+}
+
+// 生成七乐彩随机号码函数
+function generateQLCNumbers() {
+    const resultDiv = document.getElementById('qlc-random-result');
+    resultDiv.innerHTML = '';
+    
+    const balls = [];
+    
+    // 生成7个球(1-30)
+    while(balls.length < 7) {
+        const num = Math.floor(Math.random() * 30) + 1;
+        if(!balls.includes(num)) {
+            balls.push(num);
+        }
+    }
+    
+    // 排序
+    balls.sort((a, b) => a - b);
+    
+    balls.forEach(num => {
+        const ball = document.createElement('span');
+        ball.className = 'ball red-ball';
+        ball.textContent = num;
+        resultDiv.appendChild(ball);
+    });
+}
+
+// 更新页面加载事件监听器
 document.addEventListener('DOMContentLoaded', function() {
     generateSSQNumbers();
     generateAllKL8Numbers();
     generateFC3DNumbers();
+    generateDLTNumbers();
+    generateTC7XCNumbers();
+    generatePLNumbers();
+    generateQLCNumbers();
 });

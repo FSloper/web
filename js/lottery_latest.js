@@ -1,8 +1,12 @@
 // 显示最新一期彩票开奖结果
+const updateTimeElement = document.getElementById('update-time');
 const ssqLatestResults = document.getElementById('ssq-latest');
 const kl8LatestResults = document.getElementById('kl8-latest');
 const fc3dLatestResults = document.getElementById('fc3d-latest');
-const updateTimeElement = document.getElementById('update-time');
+const dltLatestResults = document.getElementById('dlt-latest');
+const tc7xcLatestResults = document.getElementById('tc7xc-latest');
+const plLatestResults = document.getElementById('pl-latest');
+const qlcLatestResults = document.getElementById('qlc-latest');
 
 // 加载最新一期数据
 function loadSSQLatestData() {
@@ -150,6 +154,203 @@ function loadFC3DLatestData() {
             fc3dLatestResults.innerHTML = '<div class="error">数据加载失败，请稍后重试</div>';
         });
 }
+
+// 加载大乐透最新一期数据
+function loadDLTLatestData() {
+    dltLatestResults.innerHTML = '<div class="loading">加载中...</div>';
+    
+    fetch('../data/dlt_data_first3.json')
+        .then(response => {
+            if (!response.ok) throw new Error('网络响应不正常');
+            return response.json();
+        })
+        .then(data => {
+            const latestPeriod = Object.keys(data).sort().pop();
+            const latestData = data[latestPeriod];
+            const redBalls = latestData.split(',').slice(0, 5);
+            const blueBalls = latestData.split(',').slice(5, 7);
+            
+            renderDLTResults(latestPeriod, redBalls, blueBalls);
+        })
+        .catch(error => {
+            console.error('加载大乐透数据失败:', error);
+            dltLatestResults.innerHTML = '<div class="error">数据加载失败，请稍后重试</div>';
+        });
+}
+
+// 加载排列最新一期数据
+function loadPLLatestData() {
+    plLatestResults.innerHTML = '<div class="loading">加载中...</div>';
+    
+    fetch('../data/pl_data_first3.json')
+        .then(response => {
+            if (!response.ok) throw new Error('网络响应不正常');
+            return response.json();
+        })
+        .then(data => {
+            const latestPeriod = Object.keys(data).sort().pop();
+            const latestData = data[latestPeriod];
+            const balls = latestData.split(',');
+            
+            renderPLResults(latestPeriod, balls);
+        })
+        .catch(error => {
+            console.error('加载排列数据失败:', error);
+            plLatestResults.innerHTML = '<div class="error">数据加载失败，请稍后重试</div>';
+        });
+}
+
+// 渲染排列结果
+function renderPLResults(period, balls) {
+    const container = document.createElement('div');
+    container.className = 'latest-results';
+    
+    const periodElement = document.createElement('h3');
+    periodElement.textContent = `排列    第${period}期`;
+    container.appendChild(periodElement);
+    
+    const ballsContainer = document.createElement('div');
+    ballsContainer.className = 'balls-container';
+    
+    balls.forEach(ball => {
+        const ballSpan = document.createElement('span');
+        ballSpan.className = 'ball pl-ball';
+        ballSpan.textContent = ball;
+        ballsContainer.appendChild(ballSpan);
+    });
+    
+    container.appendChild(ballsContainer);
+    plLatestResults.innerHTML = '';
+    plLatestResults.appendChild(container);
+}
+
+// 渲染大乐透结果
+function renderDLTResults(period, redBalls, blueBalls) {
+    const container = document.createElement('div');
+    container.className = 'latest-results';
+    
+    const periodElement = document.createElement('h3');
+    periodElement.textContent = `大乐透    第${period}期`;
+    container.appendChild(periodElement);
+    
+    const ballsContainer = document.createElement('div');
+    ballsContainer.className = 'balls-container';
+    
+    redBalls.forEach(ball => {
+        const ballSpan = document.createElement('span');
+        ballSpan.className = 'ball red-ball';
+        ballSpan.textContent = ball;
+        ballsContainer.appendChild(ballSpan);
+    });
+    
+    blueBalls.forEach(ball => {
+        const ballSpan = document.createElement('span');
+        ballSpan.className = 'ball blue-ball';
+        ballSpan.textContent = ball;
+        ballsContainer.appendChild(ballSpan);
+    });
+    
+    container.appendChild(ballsContainer);
+    dltLatestResults.innerHTML = '';
+    dltLatestResults.appendChild(container);
+}
+function loadTC7XCLatestData() {
+    tc7xcLatestResults.innerHTML = '<div class="loading">加载中...</div>';
+    
+    fetch('data/tc7xc_data.json')
+        .then(response => {
+            if (!response.ok) throw new Error('网络响应不正常');
+            return response.json();
+        })
+        .then(data => {
+            const latestPeriod = Object.keys(data).sort().pop();
+            const latestData = data[latestPeriod];
+            const balls = latestData.split(',');
+            
+            renderTC7XCResults(latestPeriod, balls);
+        })
+        .catch(error => {
+            console.error('加载7星彩数据失败:', error);
+            tc7xcLatestResults.innerHTML = '<div class="error">数据加载失败，请稍后重试</div>';
+        });
+}
+
+function renderTC7XCResults(period, balls) {
+    const container = document.createElement('div');
+    container.className = 'latest-results';
+    
+    const periodElement = document.createElement('h3');
+    periodElement.textContent = `7星彩    第${period}期`;
+    container.appendChild(periodElement);
+    
+    const ballsContainer = document.createElement('div');
+    ballsContainer.className = 'balls-container';
+    
+    balls.forEach(ball => {
+        const ballSpan = document.createElement('span');
+        ballSpan.className = 'ball red-ball';
+        ballSpan.textContent = ball;
+        ballsContainer.appendChild(ballSpan);
+    });
+    
+    container.appendChild(ballsContainer);
+    tc7xcLatestResults.innerHTML = '';
+    tc7xcLatestResults.appendChild(container);
+}
+
+
+
+function loadQLCLatestData() {
+    qlcLatestResults.innerHTML = '<div class="loading">加载中...</div>';
+    
+    fetch('data/qlc_data.json')
+        .then(response => {
+            if (!response.ok) throw new Error('网络响应不正常');
+            return response.json();
+        })
+        .then(data => {
+            const latestPeriod = Object.keys(data).sort().pop();
+            const latestData = data[latestPeriod];
+            const balls = latestData.split(' ');
+            
+            renderQLCResults(latestPeriod, balls);
+        })
+        .catch(error => {
+            console.error('加载7乐彩数据失败:', error);
+            qlcLatestResults.innerHTML = '<div class="error">数据加载失败，请稍后重试</div>';
+        });
+}
+
+function renderQLCResults(period, balls) {
+    const container = document.createElement('div');
+    container.className = 'latest-results';
+    
+    const periodElement = document.createElement('h3');
+    periodElement.textContent = `七乐彩    第${period}期`;
+    container.appendChild(periodElement);
+    
+    const ballsContainer = document.createElement('div');
+    ballsContainer.className = 'balls-container';
+    
+    // 主号码(前7个)
+    balls.slice(0,7).forEach(ball => {
+        const ballSpan = document.createElement('span');
+        ballSpan.className = 'ball red-ball';
+        ballSpan.textContent = ball;
+        ballsContainer.appendChild(ballSpan);
+    });
+    
+    // 特别号(第8个)
+    const specialBall = document.createElement('span');
+    specialBall.className = 'ball blue-ball';
+    specialBall.textContent = balls[7];
+    ballsContainer.appendChild(specialBall);
+    
+    container.appendChild(ballsContainer);
+    qlcLatestResults.innerHTML = '';
+    qlcLatestResults.appendChild(container);
+}
+
 function getFileLastModified(filePath) {
     return fetch(filePath, { method: 'HEAD' })
       .then(response => {
@@ -208,8 +409,12 @@ function updateLastModifiedTime() {
 }
 
 // 页面加载完成后执行
-window.addEventListener('DOMContentLoaded', () => {
-    if (ssqLatestResults) loadSSQLatestData();
-    if (kl8LatestResults) loadKL8LatestData();
-    if (fc3dLatestResults) loadFC3DLatestData();
+document.addEventListener('DOMContentLoaded', () => {
+    loadSSQLatestData();
+    loadKL8LatestData();
+    loadFC3DLatestData();
+    loadDLTLatestData();
+    loadTC7XCLatestData();
+    loadPLLatestData();
+    loadQLCLatestData();
 });

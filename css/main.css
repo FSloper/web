@@ -64,6 +64,16 @@ main {
     margin-bottom: 5px;
 }
 
+.pl-ball {
+    background-color: #503ce7;
+}
+
+.qlc-ball {
+    background-color: #503ce7;
+    color: white;
+    /* 其他样式 */
+}
+
 .red-ball {
     background-color: #e74c3c;
 }
@@ -123,6 +133,15 @@ main {
 .kl8-ball.group-8 { background-color: #00FFFF; }
 .kl8-ball.group-9 { background-color: #FF00FF; }
 
+.pl-ball {
+    background-color: #503ce7;
+}
+
+.pl-ball:nth-child(1),
+.pl-ball:nth-child(2), 
+.pl-ball:nth-child(3) {
+    background-color: #e74c3c;
+}
 /* 快乐8金字塔布局样式 */
 .kl8-pyramid {
     display: flex;
@@ -281,7 +300,7 @@ select {
     padding: 0.5rem;
 }
 
-.prize-btn {
+.download-btn {
     background-color: #2ecc71;
     color: white;
     border: none;
@@ -290,12 +309,6 @@ select {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.prize-btn:hover {
-    background-color: #27ae60;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .back-to-top {
