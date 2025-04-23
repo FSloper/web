@@ -1,7 +1,7 @@
 // 导航菜单配置
 const navLinks = [
-    { href: "../", text: "首页", isLogo: true },
-    { href: "../", text: "首页" },
+    { href: "../index.html", text: "首页", isLogo: true },
+    { href: "../index.html", text: "首页" },
     { href: "../html/ssq.html", text: "双色球" },
     { href: "../html/kl8.html", text: "快乐8" },
     { href: "../html/fc3d.html", text: "福彩3D" },
