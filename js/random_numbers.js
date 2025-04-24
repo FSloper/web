@@ -156,7 +156,7 @@ function generateQLCNumbers() {
     
     const balls = [];
     
-    // 生成7个球(1-30)
+    // 生成7个主球(1-30)
     while(balls.length < 7) {
         const num = Math.floor(Math.random() * 30) + 1;
         if(!balls.includes(num)) {
@@ -167,12 +167,25 @@ function generateQLCNumbers() {
     // 排序
     balls.sort((a, b) => a - b);
     
+    // 生成特别号码(1-30)，不能与主号码重复
+    let specialBall;
+    do {
+        specialBall = Math.floor(Math.random() * 30) + 1;
+    } while(balls.includes(specialBall));
+    
+    // 显示主号码
     balls.forEach(num => {
         const ball = document.createElement('span');
         ball.className = 'ball red-ball';
         ball.textContent = num;
         resultDiv.appendChild(ball);
     });
+    
+    // 显示特别号码
+    const specialBallElement = document.createElement('span');
+    specialBallElement.className = 'ball blue-ball';
+    specialBallElement.textContent = specialBall;
+    resultDiv.appendChild(specialBallElement);
 }
 
 // 更新页面加载事件监听器

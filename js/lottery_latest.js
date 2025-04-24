@@ -311,7 +311,7 @@ function loadQLCLatestData() {
         .then(data => {
             const latestPeriod = Object.keys(data).sort().pop();
             const latestData = data[latestPeriod];
-            const balls = latestData.split(' ');
+            const balls = latestData.split(',');
             
             renderQLCResults(latestPeriod, balls);
         })
@@ -325,28 +325,32 @@ function renderQLCResults(period, balls) {
     const container = document.createElement('div');
     container.className = 'latest-results';
     
+    // 期号
     const periodElement = document.createElement('h3');
     periodElement.textContent = `七乐彩    第${period}期`;
     container.appendChild(periodElement);
     
+    // 球号容器
     const ballsContainer = document.createElement('div');
     ballsContainer.className = 'balls-container';
     
-    // 主号码(前7个)
-    balls.slice(0,7).forEach(ball => {
+    // 主号码(7个红球)
+    for (let i = 0; i < 7; i++) {
         const ballSpan = document.createElement('span');
         ballSpan.className = 'ball red-ball';
-        ballSpan.textContent = ball;
+        ballSpan.textContent = balls[i];
         ballsContainer.appendChild(ballSpan);
-    });
+    }
     
-    // 特别号(第8个)
+    // 特别号(1个蓝球)
     const specialBall = document.createElement('span');
     specialBall.className = 'ball blue-ball';
     specialBall.textContent = balls[7];
     ballsContainer.appendChild(specialBall);
     
     container.appendChild(ballsContainer);
+    
+    // 添加到页面
     qlcLatestResults.innerHTML = '';
     qlcLatestResults.appendChild(container);
 }

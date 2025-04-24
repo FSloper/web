@@ -22,7 +22,6 @@ function init() {
 
 // 加载JSON数据
 function loadData() {
-    console.log('开始加载数据...');
     fetch('../data/ssq_data.json')
         .then(response => {
             if (!response.ok) {

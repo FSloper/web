@@ -11,6 +11,11 @@ const rowsPerPageSelect = document.getElementById('rows-per-page');
 
 // 初始化页面
 function init() {
+    // 从localStorage读取保存的行数选择
+    const savedRows = localStorage.getItem('qlc_rows_per_page');
+    if (savedRows) {
+        rowsPerPageSelect.value = savedRows;
+    }
     loadData();
     setupEventListeners();
 }
@@ -18,21 +23,28 @@ function init() {
 // 加载JSON数据
 function loadData() {
     fetch('../data/qlc_data.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP错误! 状态码: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
+            // 将对象转换为数组格式
             allData = Object.entries(data).sort((a, b) => b[0].localeCompare(a[0])).map(([period, numbers]) => {
-                const nums = numbers.split(' ');
+                const nums = numbers.split(',');
                 return {
                     period,
                     mainNumbers: nums.slice(0, 7),
                     specialNumber: nums[7]
                 };
             });
+            console.log('七乐彩数据加载成功，共加载', allData.length, '条记录');
             updateDisplay();
         })
         .catch(error => {
-            console.error('加载七乐彩数据失败:', error);
-            alert('数据加载失败，请检查JSON文件格式');
+            console.error('加载数据失败:', error);
+            alert('数据加载失败，请检查控制台查看详情');
         });
 }
 
@@ -40,6 +52,8 @@ function loadData() {
 function setupEventListeners() {
     rowsPerPageSelect.addEventListener('change', () => {
         currentPage = 1;
+        // 保存选择的行数到localStorage
+        localStorage.setItem('qlc_rows_per_page', rowsPerPageSelect.value);
         updateDisplay();
     });
     
@@ -79,7 +93,13 @@ function updateDisplay() {
 function renderTable(data) {
     resultsBody.innerHTML = '';
     
-    data.forEach(item => {
+    if (!Array.isArray(data)) {
+        console.error('renderTable: data参数必须是数组', data);
+        return;
+    }
+
+    // 先渲染所有数据行
+    data.forEach((item, index) => {
         const row = document.createElement('tr');
         
         // 期号
@@ -106,7 +126,7 @@ function renderTable(data) {
         row.appendChild(specialCell);
         
         // 计算统计数据
-        const stats = calculateStats(item.mainNumbers);
+        const stats = calculateStats(item.mainNumbers, item.specialNumber, index);
         
         // 和值
         const sumCell = document.createElement('td');
@@ -118,87 +138,125 @@ function renderTable(data) {
         spanCell.textContent = stats.span;
         row.appendChild(spanCell);
         
-        // 奇偶比
-        const oddEvenCell = document.createElement('td');
-        oddEvenCell.textContent = stats.oddEvenRatio;
-        row.appendChild(oddEvenCell);
-        
         // 区间比
         const zoneCell = document.createElement('td');
         zoneCell.textContent = stats.zoneRatio;
         row.appendChild(zoneCell);
         
+        // 奇偶比
+        const oddEvenCell = document.createElement('td');
+        oddEvenCell.textContent = stats.oddEvenRatio;
+        row.appendChild(oddEvenCell);
+        
+        // 质合比
+        const primeCompositeCell = document.createElement('td');
+        primeCompositeCell.textContent = stats.primeCompositeRatio;
+        row.appendChild(primeCompositeCell);
+        
+        // 特别号跨度
+        const specialSpanCell = document.createElement('td');
+        specialSpanCell.textContent = stats.specialSpan;
+        row.appendChild(specialSpanCell);
+        
         resultsBody.appendChild(row);
     });
 
-    // 计算并显示平均值
+    // 然后计算并显示平均值
     calculateAndDisplayAverages(data);
 }
 
+// 新增计算平均值的函数
 function calculateAndDisplayAverages(data) {
     if (data.length === 0) return;
 
-    const avgSumEl = document.getElementById('avg-sum');
-    const avgSpanEl = document.getElementById('avg-span');
-    const avgOddEvenEl = document.getElementById('avg-odd-even');
-    const avgZoneEl = document.getElementById('avg-zone');
-    
-    if (!avgSumEl || !avgSpanEl || !avgOddEvenEl || !avgZoneEl) {
-        console.error('无法找到显示平均值的HTML元素');
-        return;
+    const avgElements = {
+        sum: document.getElementById('avg-sum'),
+        span: document.getElementById('avg-span'),
+        zone: document.getElementById('avg-zone'),
+        oddEven: document.getElementById('avg-odd-even'),
+        prime: document.getElementById('avg-prime'),
+        blueSpan: document.getElementById('avg-blue-span')
+    };
+
+    // Check if all required elements exist
+    for (const key in avgElements) {
+        if (!avgElements[key]) {
+            console.error(`Element with ID 'avg-${key}' not found`);
+            return;
+        }
     }
 
     let totalSum = 0;
     let totalSpan = 0;
-    let totalOdd = 0, totalEven = 0;
     let totalZone1 = 0, totalZone2 = 0, totalZone3 = 0;
+    let totalOdd = 0, totalEven = 0;
+    let totalPrime = 0, totalComposite = 0;
+    let totalBlueSpan = 0;
+    let validBlueSpanCount = 0;
 
     data.forEach(item => {
-        const stats = calculateStats(item.mainNumbers);
+        const stats = calculateStats(item.mainNumbers, item.specialNumber, data.indexOf(item));
         
         totalSum += stats.sum;
         totalSpan += stats.span;
-        
-        const oddEven = stats.oddEvenRatio.split(':');
-        totalOdd += parseInt(oddEven[0]);
-        totalEven += parseInt(oddEven[1]);
         
         const zones = stats.zoneRatio.split(':');
         totalZone1 += parseInt(zones[0]);
         totalZone2 += parseInt(zones[1]);
         totalZone3 += parseInt(zones[2]);
+        
+        const oddEven = stats.oddEvenRatio.split(':');
+        totalOdd += parseInt(oddEven[0]);
+        totalEven += parseInt(oddEven[1]);
+        
+        const primeComposite = stats.primeCompositeRatio.split(':');
+        totalPrime += parseInt(primeComposite[0]);
+        totalComposite += parseInt(primeComposite[1]);
+        
+        if (typeof stats.specialSpan === 'number') {  // 修改这里
+            totalBlueSpan += Math.abs(stats.specialSpan);
+            validBlueSpanCount++;
+        }
     });
 
     const count = data.length;
-    avgSumEl.textContent = Math.round(totalSum / count);
-    avgSpanEl.textContent = Math.round(totalSpan / count);
-    avgOddEvenEl.textContent = `${Math.round(totalOdd/count)}:${Math.round(totalEven/count)}`;
-    avgZoneEl.textContent = `${Math.round(totalZone1/count)}:${Math.round(totalZone2/count)}:${Math.round(totalZone3/count)}`;
+    avgElements.sum.textContent = Math.round(totalSum / count);
+    avgElements.span.textContent = Math.round(totalSpan / count);
+    avgElements.zone.textContent = `${Math.round(totalZone1/count)}:${Math.round(totalZone2/count)}:${Math.round(totalZone3/count)}`;
+    avgElements.oddEven.textContent = `${Math.round(totalOdd/count)}:${Math.round(totalEven/count)}`;
+    avgElements.prime.textContent = `${Math.round(totalPrime/count)}:${Math.round(totalComposite/count)}`;
+    avgElements.blueSpan.textContent = validBlueSpanCount > 0 ? Math.round(totalBlueSpan / validBlueSpanCount) : '-';
 }
 
-// 渲染分页
-function renderPagination() {
-    // ... existing code ...
+// 判断是否为质数
+function isPrime(num) {
+    if (num <= 1) return false;
+    if (num <= 3) return true;
+    if (num % 2 === 0 || num % 3 === 0) return false;
+    for (let i = 5; i * i <= num; i += 6) {
+        if (num % i === 0 || num % (i + 2) === 0) return false;
+    }
+    return true;
 }
 
-// 初始化页面
-document.addEventListener('DOMContentLoaded', init);
-
-
-function calculateStats(numbers) {
-    const nums = numbers.map(Number);
-    const sortedNums = [...nums].sort((a, b) => a - b);
+// 计算统计数据
+function calculateStats(mainNumbers, specialNumber, index) {
+    const nums = mainNumbers.map(Number);
+    const sorted = [...nums].sort((a, b) => a - b);
+    const specialNum = Number(specialNumber);
     
     // 和值
-    const sum = nums.reduce((a, b) => a + b, 0);
+    const sum = nums.reduce((a, b) => a + b, 0) + specialNum;
     
     // 跨度
-    const span = sortedNums[sortedNums.length - 1] - sortedNums[0];
+    const span = sorted[sorted.length - 1] - sorted[0];
     
-    // 奇偶比
-    const odd = nums.filter(n => n % 2 === 1).length;
-    const even = nums.length - odd;
-    const oddEvenRatio = `${odd}:${even}`;
+    // 特别号变化值（由于数据是倒序排列，所以比较下一期）
+    let blueSpan = '-';
+    if (index < allData.length - 1) {  // 不是最后一条记录
+        const nextSpecialNumber = Number(allData[index + 1].specialNumber);
+        blueSpan = specialNum - nextSpecialNumber;  // 当前期减去下一期
+    }
     
     // 区间比 (1-11,12-22,23-30)
     const zone1 = nums.filter(n => n <= 11).length;
@@ -206,10 +264,150 @@ function calculateStats(numbers) {
     const zone3 = nums.filter(n => n > 22).length;
     const zoneRatio = `${zone1}:${zone2}:${zone3}`;
     
+    // 奇偶比
+    const odd = nums.filter(n => n % 2 === 1).length;
+    const even = nums.length - odd;
+    const oddEvenRatio = `${odd}:${even}`;
+    
+    // 质合比
+    const prime = nums.filter(n => isPrime(n)).length;
+    const composite = nums.length - prime;
+    const primeCompositeRatio = `${prime}:${composite}`;
+    
     return {
         sum,
         span,
+        specialSpan: blueSpan,  // 使用计算好的blueSpan
+        zoneRatio,
         oddEvenRatio,
-        zoneRatio
+        primeCompositeRatio
     };
 }
+
+// 渲染分页控件
+function renderPagination() {
+    const rowsPerPage = rowsPerPageSelect.value;
+    totalPages = rowsPerPage === 'all' ? 1 : Math.ceil(allData.length / parseInt(rowsPerPage));
+    
+    pagination.innerHTML = '';
+    
+    if (rowsPerPage === 'all') {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = '1';
+        pageButton.className = 'active';
+        pagination.appendChild(pageButton);
+        return;
+    }
+    
+    // 上一页按钮
+    const prevButton = document.createElement('button');
+    prevButton.textContent = '上一页';
+    prevButton.disabled = currentPage === 1;
+    prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            updateDisplay();
+        }
+    });
+    pagination.appendChild(prevButton);
+    
+    // 页码按钮
+    const maxVisiblePages = 7;
+    let startPage = Math.max(1, currentPage - 3);
+    let endPage = Math.min(totalPages, currentPage + 3);
+    
+    // 确保显示7个页码
+    if (endPage - startPage + 1 < maxVisiblePages) {
+        if (startPage === 1) {
+            endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        } else {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+    }
+    
+    // 第一页按钮
+    if (startPage > 1) {
+        const firstButton = document.createElement('button');
+        firstButton.textContent = '1';
+        firstButton.className = currentPage === 1 ? 'active' : '';
+        firstButton.addEventListener('click', () => {
+            currentPage = 1;
+            updateDisplay();
+        });
+        pagination.appendChild(firstButton);
+        
+        if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            pagination.appendChild(ellipsis);
+        }
+    }
+    
+    // 中间页码
+    for (let i = startPage; i <= endPage; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.className = currentPage === i ? 'active' : '';
+        pageButton.addEventListener('click', () => {
+            currentPage = i;
+            updateDisplay();
+        });
+        pagination.appendChild(pageButton);
+    }
+    
+    // 最后一页按钮
+    if (endPage < totalPages) {
+        if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            pagination.appendChild(ellipsis);
+        }
+        
+        const lastButton = document.createElement('button');
+        lastButton.textContent = totalPages;
+        lastButton.className = currentPage === totalPages ? 'active' : '';
+        lastButton.addEventListener('click', () => {
+            currentPage = totalPages;
+            updateDisplay();
+        });
+        pagination.appendChild(lastButton);
+    }
+    
+    // 下一页按钮
+    const nextButton = document.createElement('button');
+    nextButton.textContent = '下一页';
+    nextButton.disabled = currentPage === totalPages;
+    nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            updateDisplay();
+        }
+    });
+    pagination.appendChild(nextButton);
+}
+
+// 返回顶部按钮功能
+function setupBackToTopButton() {
+    const backToTop = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+    
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// 初始化页面
+window.addEventListener('DOMContentLoaded', () => {
+    init();
+    setupBackToTopButton();
+});
