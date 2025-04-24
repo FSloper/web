@@ -130,30 +130,50 @@ function renderTable(data) {
         
         resultsBody.appendChild(row);
     });
+
+    // 计算并显示平均值
+    calculateAndDisplayAverages(data);
 }
 
-// 计算统计数据
-function calculateStats(numbers) {
-    const nums = numbers.map(Number);
-    const sorted = [...nums].sort((a, b) => a - b);
+function calculateAndDisplayAverages(data) {
+    if (data.length === 0) return;
+
+    const avgSumEl = document.getElementById('avg-sum');
+    const avgSpanEl = document.getElementById('avg-span');
+    const avgOddEvenEl = document.getElementById('avg-odd-even');
+    const avgZoneEl = document.getElementById('avg-zone');
     
-    // 和值
-    const sum = nums.reduce((a, b) => a + b, 0);
-    
-    // 跨度
-    const span = sorted[sorted.length - 1] - sorted[0];
-    
-    // 奇偶比
-    const oddCount = nums.filter(n => n % 2 === 1).length;
-    const oddEvenRatio = `${oddCount}:${7 - oddCount}`;
-    
-    // 区间比
-    const zone1 = nums.filter(n => n <= 10).length;
-    const zone2 = nums.filter(n => n > 10 && n <= 20).length;
-    const zone3 = nums.filter(n => n > 20).length;
-    const zoneRatio = `${zone1}:${zone2}:${zone3}`;
-    
-    return { sum, span, oddEvenRatio, zoneRatio };
+    if (!avgSumEl || !avgSpanEl || !avgOddEvenEl || !avgZoneEl) {
+        console.error('无法找到显示平均值的HTML元素');
+        return;
+    }
+
+    let totalSum = 0;
+    let totalSpan = 0;
+    let totalOdd = 0, totalEven = 0;
+    let totalZone1 = 0, totalZone2 = 0, totalZone3 = 0;
+
+    data.forEach(item => {
+        const stats = calculateStats(item.mainNumbers);
+        
+        totalSum += stats.sum;
+        totalSpan += stats.span;
+        
+        const oddEven = stats.oddEvenRatio.split(':');
+        totalOdd += parseInt(oddEven[0]);
+        totalEven += parseInt(oddEven[1]);
+        
+        const zones = stats.zoneRatio.split(':');
+        totalZone1 += parseInt(zones[0]);
+        totalZone2 += parseInt(zones[1]);
+        totalZone3 += parseInt(zones[2]);
+    });
+
+    const count = data.length;
+    avgSumEl.textContent = Math.round(totalSum / count);
+    avgSpanEl.textContent = Math.round(totalSpan / count);
+    avgOddEvenEl.textContent = `${Math.round(totalOdd/count)}:${Math.round(totalEven/count)}`;
+    avgZoneEl.textContent = `${Math.round(totalZone1/count)}:${Math.round(totalZone2/count)}:${Math.round(totalZone3/count)}`;
 }
 
 // 渲染分页
@@ -163,3 +183,33 @@ function renderPagination() {
 
 // 初始化页面
 document.addEventListener('DOMContentLoaded', init);
+
+
+function calculateStats(numbers) {
+    const nums = numbers.map(Number);
+    const sortedNums = [...nums].sort((a, b) => a - b);
+    
+    // 和值
+    const sum = nums.reduce((a, b) => a + b, 0);
+    
+    // 跨度
+    const span = sortedNums[sortedNums.length - 1] - sortedNums[0];
+    
+    // 奇偶比
+    const odd = nums.filter(n => n % 2 === 1).length;
+    const even = nums.length - odd;
+    const oddEvenRatio = `${odd}:${even}`;
+    
+    // 区间比 (1-11,12-22,23-30)
+    const zone1 = nums.filter(n => n <= 11).length;
+    const zone2 = nums.filter(n => n > 11 && n <= 22).length;
+    const zone3 = nums.filter(n => n > 22).length;
+    const zoneRatio = `${zone1}:${zone2}:${zone3}`;
+    
+    return {
+        sum,
+        span,
+        oddEvenRatio,
+        zoneRatio
+    };
+}

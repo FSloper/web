@@ -108,7 +108,7 @@ function renderTable(data) {
         const numbersCell = document.createElement('td');
         item.numbers.forEach(num => {
             const ball = document.createElement('span');
-            ball.className = 'ball red-ball';
+            ball.className = 'ball pl-ball';
             ball.textContent = num;
             numbersCell.appendChild(ball);
         });
