@@ -1,13 +1,12 @@
-// 加载排列三开奖数据并实现分页功能
-const ROWS_PER_PAGE = 50;
+const resultsBody = document.getElementById('results-body');
+const pagination = document.getElementById('pagination');
+const rowsPerPageSelect = document.getElementById('rows-per-page');
+
 let currentPage = 1;
 let totalPages = 1;
 let allData = [];
 
-// 获取DOM元素
-const resultsBody = document.getElementById('results-body');
-const pagination = document.getElementById('pagination');
-const rowsPerPageSelect = document.getElementById('rows-per-page');
+
 
 // 初始化页面
 function init() {
@@ -18,6 +17,10 @@ function init() {
     }
     loadData();
     setupEventListeners();
+        
+    document.getElementById('trend-chart-btn').addEventListener('click', () => {
+        window.location.href = '../html/pl_trend_chart.html';
+    });
 }
 
 // 加载JSON数据

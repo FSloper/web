@@ -1,11 +1,7 @@
-// 快乐8开奖结果处理脚本
-
-// 获取DOM元素
 const resultsBody = document.getElementById('results-body');
 const pagination = document.getElementById('pagination');
 const rowsPerPageSelect = document.getElementById('rows-per-page');
 
-// 当前页码和每页显示行数
 let currentPage = 1;
 let totalPages = 1;
 let rowsPerPage = localStorage.getItem('kl8_rowsPerPage') || (rowsPerPageSelect.value === 'all' ? 'all' : parseInt(rowsPerPageSelect.value));
@@ -20,6 +16,10 @@ function init() {
     }
     loadData();
     setupEventListeners();
+        
+    document.getElementById('trend-chart-btn').addEventListener('click', () => {
+        window.location.href = '../html/kl8_trend_chart.html';
+    });
 }
 
 // 加载JSON数据

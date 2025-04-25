@@ -1,4 +1,3 @@
-// 显示最新一期彩票开奖结果
 const updateTimeElement = document.getElementById('update-time');
 const ssqLatestResults = document.getElementById('ssq-latest');
 const kl8LatestResults = document.getElementById('kl8-latest');
